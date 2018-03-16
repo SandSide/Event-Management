@@ -4,7 +4,6 @@ public class MainMenu {
 
 	private Stack<Tree> myStack;
 	
-	
 	public void MainMenu()
 	{
 		

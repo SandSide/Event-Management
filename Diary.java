@@ -11,50 +11,229 @@ public class Diary {
 
 	
 	public LinkedList<Event> myEvents;
+	public LinkedList<Event> myEventsCopy;
 	
 	
 	public Diary() 
 	{
 		
 		myEvents = new LinkedList<Event>();
+		myEventsCopy = null;
 		
 	}
 	
-	
 
+	
+	
 	public Event findEvent() 
 	{
 		
-		
 		return myEvents.getFirst();
+		
+	}
+	
+	public void printList() 
+	{
+			
+		System.out.println(this.getMyEvents().getLast().getStartDate());
+		System.out.println(this.getMyEventsCopy().getLast().getStartDate());
+		System.out.println();
 		
 	}
 	
 	public void addToEvent() 
 	{
 		
+		this.setMyEventsCopy(this.getMyEvents());
+		
 		String date;
+		String day;
+		String month;
+		String year;
+		
 		String startTime;
+		String startTimeHour;
+		String startTimeMinute;
+		
 		String endTime;
-		String formatedDate;
+		String endTimeHour;
+		String endTimeMinute;
+		
+		int num;
 		int capacity;
 		String desc;
 		
+		Date datte = new Date();
+		
 		Scanner S2 = new Scanner(System.in);
 		
-		System.out.print("Please enter the Event Date (dd/mm/yyyy): " );
 		
-		date = S2.nextLine();
+		System.out.println();
+		System.out.print("Please enter the day of the event (e.g. 02): ");
 		
-		System.out.print("Please enter the Event Start Time (Hour:Minute): " );
+		day = S2.nextLine();
 		
-		startTime = S2.nextLine();
+		num = Integer.parseInt(day);
+		
+		while(day.length() != 2 || num<1 || num>31) 
+		{
+			
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter the day of the event: ");
+			
+			day = S2.nextLine();
+			
+			num = Integer.parseInt(day);
+		}
+			
+		
+		System.out.println();
+		System.out.print("Please enter the month of the event (e.g. 04): ");
+		
+		month = S2.nextLine();
+		
+		num = Integer.parseInt(month);
+		
+		while(month.length() != 2 || num<1 || num>12) 
+		{
+			
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter the month of the event: ");
+			
+			month = S2.nextLine();
+			
+			num = Integer.parseInt(day);
+		}
 		
 		
-		System.out.print("Please enter the Event End Time (Hour:Minute): " );
+		System.out.println();
+		System.out.print("Please enter the year of the event (e.g. 04): ");
 		
-		endTime = S2.nextLine();
+		year = S2.nextLine();
 		
+		num = Integer.parseInt(year);
+		
+		datte = new Date();
+		
+		try 
+		{
+		    		
+		    	int nowYear = datte.getYear();
+		    	nowYear = nowYear + 1900;
+		    	
+		    	while(year.length() != 4 | num < nowYear) 
+				{
+		    		
+		    		System.out.println();
+					System.out.println("Invalid Input. The year already passed.");
+					System.out.print("Please enter the year of the event: ");
+					
+					year = S2.nextLine();
+					num = Integer.parseInt(year);
+					
+				}
+		    	
+
+		} 
+		    
+		catch (Exception e) 
+		{
+		    	
+		      e.printStackTrace();
+		      
+		}		
+		
+		date = day + "/" + month + "/" + year;
+		
+		System.out.println();
+		System.out.println("Possible times are from 8am till 6pm.");
+		System.out.print("Please enter the Event Start Time hour: " );
+	
+		startTimeHour = S2.nextLine();
+		
+		num = Integer.parseInt(startTimeHour);
+		
+		while(startTimeHour.length() != 2 ||num <8 || num > 18) 
+		{
+			
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter new start time hour: ");
+			
+			startTimeHour = S2.nextLine();
+			num = Integer.parseInt(startTimeHour);
+			
+			System.out.println();
+			
+		}
+		
+		
+		System.out.println();
+		System.out.print("Please enter new start time minute: ");
+		
+		startTimeMinute = S2.nextLine();
+		
+		num = Integer.parseInt(startTimeMinute);
+		
+		while(startTimeMinute.length() != 2 || num <0) 
+		{
+			
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter new start time minute: ");
+			
+			startTimeMinute = S2.nextLine();
+			num = Integer.parseInt(startTimeMinute);
+			
+			System.out.println();
+			
+		}
+		
+		startTime = startTimeHour + ":" + startTimeMinute;
+		
+		
+		System.out.println();
+		System.out.println("Possible times are from 8am till 6pm.");
+		System.out.println("Please enter new end time hour: ");
+		
+		endTimeHour = S2.nextLine();
+		
+		num = Integer.parseInt(endTimeHour);
+		
+		while(endTimeHour.length() != 2 ||num <8 || num > 16) 
+		{
+			
+			System.out.println("Invalid Input. Possible times are from 8am till 6pm: ");
+			System.out.print("Please enter new end time hour: ");
+			
+			endTimeHour = S2.nextLine();
+			num = Integer.parseInt(endTimeHour);
+			
+			System.out.println();
+			
+		}
+		
+		
+		System.out.println();
+		System.out.print("Please enter new end time minute: ");
+		
+		endTimeMinute = S2.nextLine();
+		
+		num = Integer.parseInt(endTimeMinute);
+		
+		while(endTimeMinute.length() != 2 || num <0) 
+		{
+			
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter new end time minute: ");
+			
+			endTimeMinute = S2.nextLine();
+			num = Integer.parseInt(endTimeMinute);
+			
+			System.out.println();
+			
+		}
+		
+		
+		endTime = endTimeHour + ":" + endTimeMinute;
 		
 		System.out.println("Please enter description of the event: ");
 		
@@ -64,13 +243,52 @@ public class Diary {
 		
 		capacity = S2.nextInt();
 		
+		while(capacity < 0) 
+		{
+			
+			System.out.println("Invalid Input.");
+			System.out.println("Please enter the capacity for the event: ");
+			capacity = S2.nextInt();
+			
+		}
+		
 		this.addEvent(date, startTime, endTime, desc, capacity);
 		
 	}
 	
 	
+	public LinkedList<Event> getMyEvents() {
+		return myEvents;
+	}
+
+
+
+
+	public void setMyEvents(LinkedList<Event> myEvents) {
+		this.myEvents = myEvents;
+	}
+
+
+
+
+	public LinkedList<Event> getMyEventsCopy() {
+		return myEventsCopy;
+	}
+
+
+
+
+	public void setMyEventsCopy(LinkedList<Event> myEventsCopy) {
+		this.myEventsCopy = myEventsCopy;
+	}
+
+
+
+
 	public void addEvent(String day, String start, String end, String description, int cap) 
 	{
+		
+		this.myEventsCopy = this.getMyEvents();
 		
 		String startDate = day;
 		String startTime = start;
@@ -82,7 +300,6 @@ public class Diary {
 		Event E = new Event();
 		
 		Date date = null;
-		
 		
 		String pattern = "dd/MM/yyyy kk:mm";
 		
@@ -182,24 +399,45 @@ public class Diary {
 					//If choice = 1 then it calls method testAutomated().
 					//Calls lineBreak method.
 					case 1:
-						automatedRun();
+						this.editDate(this.findEvent());
 						lineBreak();
 						break;
 						
 					//If choice = 2 then it calls method singlePlayer().
 					//Calls lineBreak method.
 					case 2:
-						singlePlayer();
+						this.editStartTime(this.findEvent());
 						lineBreak();
 						break;
 		
 					//If choice = 3 then it calls method multiplayer()
 					//Calls lineBreak method.
 					case 3:
-						multiplayer();
+						this.editEndTime(this.findEvent());
 						lineBreak();
 						break;
-								
+						
+					//If choice = 3 then it calls method multiplayer()
+					//Calls lineBreak method.
+					case 4:
+						this.editDesc(this.findEvent());
+						lineBreak();
+						break;
+						
+					//If choice = 3 then it calls method multiplayer()
+					//Calls lineBreak method.
+					case 5:
+						this.editCap(this.findEvent());;
+						lineBreak();
+						break;
+					
+						//If choice = 3 then it calls method multiplayer()
+					//Calls lineBreak method.
+					case 6:
+						this.editEndTime(this.findEvent());
+						lineBreak();
+						break;
+						
 					//If choice = 0 then displays exit message.
 					//Calls lineBreak method.
 					case 0:
@@ -232,26 +470,107 @@ public class Diary {
 			System.out.println();
 			System.out.println("Invalid Input.");
 
-				
 		}
 
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	public void editDate(Event node) 
 	{
 		
 		String newDate;
+		
 		String startTime;
 		String endTime;
+		String day;
+		String month;
+		String year;
+		int num;
+		
+		
+		Date datte = new Date();
 		
 		Scanner S3 = new Scanner(System.in);
 		
+		//System.out.println();
+		//System.out.print("Please enter new Date(dd/MM/yyyy): ");
+		//newDate = S3.nextLine();
 		
 		System.out.println();
-		System.out.print("Please enter new Date(dd/MM/yyyy): ");
+		System.out.print("Please enter the new day of the event (e.g. 02): ");
 		
-		newDate = S3.nextLine();
+		day = S3.nextLine();
+		
+		num = Integer.parseInt(day);
+		
+		while(day.length() != 2 || num<1 || num>31) 
+		{
+			
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter the new day of the event: ");
+			
+			day = S3.nextLine();
+			
+			num = Integer.parseInt(day);
+		}
+			
+		
+		System.out.println();
+		System.out.print("Please enter the new month of the event (e.g. 04): ");
+		
+		month = S3.nextLine();
+		
+		num = Integer.parseInt(month);
+		
+		while(month.length() != 2 || num<1 || num>12) 
+		{
+			
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter the new month of the event: ");
+			
+			month = S3.nextLine();
+			
+			num = Integer.parseInt(month);
+		}
+		
+		
+		System.out.println();
+		System.out.print("Please enter the new year of the event (e.g. 04): ");
+		
+		year = S3.nextLine();
+		
+		num = Integer.parseInt(year);
+		
+		datte = new Date();
+		
+		 try 
+		 {
+		    		
+		    	int nowYear = datte.getYear();
+		    	nowYear = nowYear + 1900;
+		    	
+		    	while(year.length() != 4 | num < nowYear) 
+				{
+		    		
+		    		System.out.println();
+					System.out.println("Invalid Input. The year already passed.");
+					System.out.print("Please enter the year of the event: ");
+					
+					year = S3.nextLine();
+					num = Integer.parseInt(year);
+					
+				}
+		    	
+
+		    } 
+		    
+		catch (Exception e) 
+		{
+		    	
+		      e.printStackTrace();
+		      
+		}		
 		
 		String formatedDate;	
 		
@@ -273,12 +592,11 @@ public class Diary {
 	    	format = new SimpleDateFormat(pattern);
 	    	
 	    	
-	    	formatedDate = (newDate + " " + startTime);
+	    	formatedDate = (day + "/" + month + "/" + year + " " + startTime);
 	    	node.setStartDate(format.parse(formatedDate));
 	    	
-	    	
-	    	formatedDate = (newDate + " " + endTime);
-	    	
+	    	formatedDate = (day + "/" + month + "/" + year + " " + endTime);
+	
 	    	node.setEndDate(format.parse(formatedDate));
 	    		
 
@@ -302,14 +620,53 @@ public class Diary {
 	{
 		
 		String Date;
-		String startTime;
+		String startTimeHour;
+		String startTimeMinute;
+		int num;
 		
 		Scanner S4 = new Scanner(System.in);
 		
 		System.out.println();
-		System.out.print("Please enter new start time (hour:minute): ");
+		System.out.println("Possible times are from 8am till 6pm.");
+		System.out.print("Please enter new start time hour: ");
 		
-		startTime = S4.nextLine();
+		startTimeHour = S4.nextLine();
+		
+		num = Integer.parseInt(startTimeHour);
+		
+		while(startTimeHour.length() != 2 ||num <8 || num > 18) 
+		{
+			
+			System.out.println("Invalid Input. Possible times are from 8am till 6pm.");
+			System.out.print("Please enter new start time hour: ");
+			
+			startTimeHour = S4.nextLine();
+			num = Integer.parseInt(startTimeHour);
+			
+			System.out.println();
+			
+		}
+		
+		
+		System.out.println();
+		System.out.print("Please enter new start time minute: ");
+		
+		startTimeMinute = S4.nextLine();
+		
+		num = Integer.parseInt(startTimeHour);
+		
+		while(startTimeMinute.length() != 2 || num <0) 
+		{
+			
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter new start time minute: ");
+			
+			startTimeMinute = S4.nextLine();
+			num = Integer.parseInt(startTimeHour);
+			
+			System.out.println();
+			
+		}
 		
 		String formatedDate;	
 		
@@ -328,7 +685,7 @@ public class Diary {
 	    	format = new SimpleDateFormat(pattern);
 	    	
 	    	
-	    	formatedDate = (Date + " " + startTime);
+	    	formatedDate = (Date + " " + startTimeHour + ":" + startTimeMinute);
 	    	
 	    	System.out.println(formatedDate);
 	    	node.setStartDate(format.parse(formatedDate));
@@ -351,19 +708,58 @@ public class Diary {
 	{
 		
 		String Date;
-		String endTime;
+		String endTimeHour;
+		String endTimeMinute;
+		int num;
 		
 		int num1;
 		int num2;
 		boolean valid = false;
-		
-		Scanner S5 = new Scanner(System.in);
+	
+		Scanner S5 = new Scanner(System.in);	
 		
 		System.out.println();
-		System.out.print("Please enter new hour: ");
-
-		endTime = S5.nextLine();
-
+		System.out.println("Possible times are from 8am till 6pm.");
+		System.out.println("Please enter new end time hour: ");
+		
+		endTimeHour = S5.nextLine();
+		
+		num = Integer.parseInt(endTimeHour);
+		
+		while(endTimeHour.length() != 2 ||num <8 || num > 18) 
+		{
+			
+			System.out.println("Invalid Input. Possible times are from 8am till 6pm.");
+			System.out.print("Please enter new end time hour: ");
+			
+			endTimeHour = S5.nextLine();
+			num = Integer.parseInt(endTimeHour);
+			
+			System.out.println();
+			
+		}
+		
+		
+		System.out.println();
+		System.out.print("Please enter new end time minute: ");
+		
+		endTimeMinute = S5.nextLine();
+		
+		num = Integer.parseInt(endTimeHour);
+		
+		while(endTimeMinute.length() != 2 || num <0) 
+		{
+			
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter new start time minute: ");
+			
+			endTimeMinute = S5.nextLine();
+			num = Integer.parseInt(endTimeMinute);
+			
+			System.out.println();
+			
+		}
+		
 		String formatedDate;	
 		
 	    try 
@@ -373,7 +769,7 @@ public class Diary {
 	    	
 	    	SimpleDateFormat format = new SimpleDateFormat(pattern);
 			
-	    	Date = format.format(node.getEndDate());
+	    	Date = format.format(node.getStartDate());
 	    	
 	    	
 	    	pattern = "dd/MM/yyyy kk:mm";
@@ -381,10 +777,9 @@ public class Diary {
 	    	format = new SimpleDateFormat(pattern);
 	    	
 	    	
-	    	formatedDate = (Date + " " + endTime);
+	    	formatedDate = (Date + " " + endTimeHour + ":" + endTimeMinute);
 	    	
-	    	System.out.println(formatedDate);
-	    	node.setStartDate(format.parse(formatedDate));
+	    	node.setEndDate(format.parse(formatedDate));
 	    	
 	    } 
 	    
@@ -431,7 +826,7 @@ public class Diary {
 		{
 			
 			System.out.println();
-			System.out.print("Can't have : " + newCap);
+			System.out.print("Can't have: " + newCap);
 			System.out.print("Please enter new capacity: ");
 			
 			newCap = S7.nextInt();
@@ -456,12 +851,15 @@ public class Diary {
 		
 		Diary D1 = new Diary();
 		
+		//D1.addToEvent();
 		D1.addEvent("20/02/1992","12:12", "13:12", "SDas", 4);
-		D1.editDate(D1.findEvent());
-		D1.editStartTime(D1.findEvent());
-		D1.editEndTime(D1.findEvent());
-		D1.editCap(D1.findEvent());
-		D1.editDesc(D1.findEvent());
-
+		//D1.editDate(D1.findEvent());
+		//D1.editStartTime(D1.findEvent());
+		//D1.editEndTime(D1.findEvent());
+		//D1.editCap(D1.findEvent());
+		//D1.editDesc(D1.findEvent());
+		//D1.addToEvent();
+		D1.addEvent("05/12/2011","12:12", "23:12", "SDas", 4);
+		D1.printList();
 	}
 }
