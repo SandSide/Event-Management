@@ -1,0 +1,62 @@
+import java.util.LinkedList;
+import java.util.Stack;
+
+public class TreeNode {
+	
+	public String name;
+	public TreeNode left;
+	public TreeNode right;
+
+	
+	public TreeNode(String staff) 
+	{
+		
+		name = staff;
+		left = null;
+		right = null;
+		
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+//
+//	public LinkedList<Diary> getMyDiary() {
+//		return myDiary;
+//	}
+//
+//	public void setMyDiary(LinkedList<Diary> myDiary) {
+//		this.myDiary = myDiary;
+//	}
+	
+	
+	public TreeNode getLeft() {
+		return left;
+	}
+
+	public void setLeft(TreeNode left) {
+		this.left = left;
+	}
+
+	public TreeNode getRight() {
+		return right;
+	}
+
+	public void setRight(TreeNode right) {
+		this.right = right;
+	}
+	
+	public TreeNode()
+	{
+		
+		left = null;
+		right = null;
+	}
+	
+	
+	
+}
