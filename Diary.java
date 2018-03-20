@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -25,19 +26,73 @@ public class Diary {
 
 	
 	
-	public Event findEvent() 
+	public Event findEvent(String day, String time) 
 	{
 		
-		return myEvents.getFirst();
+		String pattern = "dd/MM/yyyy kk:mm";
+		SimpleDateFormat format = new SimpleDateFormat(pattern);
 		
+		String findDate = day + " " + time;
+		String currentDate;
+		boolean found = false;
+		Event N = null;
+
+		Iterator<Event> Iterator = myEvents.iterator();
+		
+        while (Iterator.hasNext() && found == false) 
+        {
+        	
+        	N = Iterator.next();
+        	currentDate = format.format(N.getStartDate());
+        	
+        	if(currentDate.equals(findDate)) 
+        	{
+        		
+        		found = true;
+        		return N;
+        		
+        	}
+
+        }
+        
+        if (found == true) 
+        {
+        	
+        	return N;
+        	
+        }		
+        
+        else
+        {
+        	
+        	return null;
+        	
+        }
 	}
+	
 	
 	public void printList() 
 	{
 			
-		System.out.println(this.getMyEvents().getLast().getStartDate());
-		System.out.println(this.getMyEventsCopy().getLast().getStartDate());
-		System.out.println();
+		String currentDate;
+		boolean found = false;
+		Event N = null;
+		
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy kk:mm");
+		
+		Iterator<Event> Iterator = myEvents.iterator();
+		
+        while (Iterator.hasNext()) 
+        {
+        	
+        	N = Iterator.next();
+        	System.out.println(format.format(N.getStartDate()));
+        	System.out.println(format.format(N.getEndDate()));
+        	System.out.println(N.getDesciption());
+        	System.out.println(N.getCapacity());
+        	System.out.println();
+
+        }
 		
 	}
 	
@@ -257,8 +312,11 @@ public class Diary {
 	}
 	
 	
-	public LinkedList<Event> getMyEvents() {
+	public LinkedList<Event> getMyEvents() 
+	{
+		
 		return myEvents;
+		
 	}
 
 
@@ -321,6 +379,7 @@ public class Diary {
 	    	Date sd = E.getStartDate();
 	    	
 	    	System.out.println(format.format(sd));
+	    	System.out.println();
 	    	
 
 	    } 
@@ -860,6 +919,8 @@ public class Diary {
 		//D1.editDesc(D1.findEvent());
 		//D1.addToEvent();
 		D1.addEvent("05/12/2011","12:12", "23:12", "SDas", 4);
+		D1.addEvent("06/12/2011","12:12", "23:12", "SDas", 4);
+		D1.addEvent("07/12/2011","12:12", "23:12", "SDas", 4);
 		D1.printList();
 	}
 }

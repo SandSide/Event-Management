@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Tree {
 
 	private TreeNode root;
@@ -529,7 +531,35 @@ public class Tree {
 		
 		
 	}
-	/**
+	
+	public void searchGroup()
+	{
+		
+		Scanner S8 = new Scanner(System.in);
+		String names;
+		
+		System.out.println("Please enter group of people seperated by , ");
+		names = S8.next();
+		
+		String[] parts = names.split(",");
+		
+		for(int i = 0; i < parts.length; i++) 
+		{
+			
+			
+			
+			
+			
+		}
+		
+		
+		
+		
+	}
+	
+	
+	
+	/** 
 	* Main method
 	* 
 	* @param args N/A.
