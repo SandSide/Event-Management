@@ -129,27 +129,27 @@ public class Diary {
 	public Event searchMeeting() 
 	{
 		
-		String date;
-		String day;
-		String month;
-		String year;
+		String date;   //Create new local string for date
+		String day;    //Create new  local string for day
+		String month;  //Create new local string for month
+		String year;   //Create new local string for year
 		
-		String startTime;
-		String startTimeHour;
-		String startTimeMinute;
+		String startTime;  //Create new local string to obtain complete start time
+		String startTimeHour;  //Create local new string to obtain start time hour
+		String startTimeMinute; //Create local new string for start time minute
 				
-		String duration;
-		int num;
+		String duration;  //Local string variable for to calculate the duration of meeting
+		int num;          //Local integer variable called num
 		
-		boolean valid = false;
+		boolean valid = false;  //Sets boolean valid to equal false
 		
-		Date datte = new Date();
+		Date datte = new Date();  //Creates an instance of date
 		
-		Scanner S2 = new Scanner(System.in);
+		Scanner S2 = new Scanner(System.in);  //Utilizing scanner to get user unput
 		
 		
-		System.out.println();
-		System.out.print("Please enter the day of the event: ");
+		System.out.println();  //Prints out new Line
+		System.out.print("Please enter the day of the event: "); //Outputs message prompting user to enter day of event t
 		
 		day = S2.nextLine();
 		
@@ -287,49 +287,49 @@ public class Diary {
 	public void searchDelete() 
 	{
 		
-		String date;
-		String day;
-		String month;
-		String year;
+		String date; //Create new local string for date
+		String day;  //Create new  local string for day
+		String month;  //Create new local string for month
+		String year;   //Create new local string for year
 		
-		String startTime;
-		String startTimeHour;
-		String startTimeMinute;
+		String startTime; //Create new local string to obtain complete start time
+		String startTimeHour; //Create local new string to obtain start time hour
+		String startTimeMinute; //Create local new string for start time minute
 				
-		String duration;
-		int num;
+		String duration;  //Local string variable for to calculate the duration of meeting
+		int num;   //Local integer variable called num
 		
-		boolean valid = false;
-		
-		
-		
-		Date datte = new Date();
-		
-		Scanner S2 = new Scanner(System.in);
+		boolean valid = false;  //Sets boolean valid to equal false
 		
 		
-		System.out.println("Search Function:");
-		System.out.print("Please enter the day of the event: ");
+		
+		Date datte = new Date();  //Creates an instance of date
+		
+		Scanner S2 = new Scanner(System.in); //Utilizing scanner to get user unput
+		
+		
+		System.out.println("Search Function to Delete Meeting:"); //Outputs message telling user that this is the search function to delete
+		System.out.print("Please enter the day of the event: "); //Prompts user to enter day of meeting they want to search and delete
 		
 		day = S2.nextLine();
 		
 		num = Integer.parseInt(day);
 		
-		while(num<1 || num>31) 
+		while(num<1 || num>31) //While statement to validate input is between 1 and 31 for days in month
 		{
 			
 			System.out.println();
-			System.out.println("Invalid Input.");
-			System.out.print("Please enter the day of the event: ");
+			System.out.println("Invalid Input.");  //Error message output
+			System.out.print("Please enter the day of the event: ");  //Allows user to enter again
 			
 			day = S2.nextLine();
 			
-			num = Integer.parseInt(day);
+			num = Integer.parseInt(day); //Setting int num to equal input for day through parsing it 
 		}
 			
 		
-		System.out.println();
-		System.out.print("Please enter the month of the event: ");
+		System.out.println(); 
+		System.out.print("Please enter the month of the event: "); //Prompts user to enter the month of meeting
 		
 		month = S2.nextLine();
 		
@@ -1338,9 +1338,9 @@ public class Diary {
 		
 		
 		D1.searchDelete();
-		long time = System.currentTimeMillis() - start;   
-		time = (time)/1000;
-		System.out.println("You spent " + time + " seconds using our search feature.");
+		long searchTime = System.currentTimeMillis() - start;   //running time for search method
+		searchTime = (searchTime)/1000;  //Divides searchTime by 1000 to get it in seconds
+		System.out.println("You spent " + searchTime + " seconds using our search feature."); //Outputs the running time of the search method
 		System.out.println();
 		System.out.println("After deletion, the list is as follows:");
 		D1.printList();
