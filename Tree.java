@@ -1,3 +1,9 @@
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class Tree {
@@ -536,18 +542,67 @@ public class Tree {
 	{
 		
 		Scanner S8 = new Scanner(System.in);
+		
 		String names;
+		String date;
+		String minTime;
+		String maxTime;
+		
+		
+		
+		boolean valid;
+		
+		int maxCol;
+		
+		TreeNode found;
 		
 		System.out.println("Please enter group of people seperated by , ");
 		names = S8.next();
 		
 		String[] parts = names.split(",");
 		
+		System.out.println("Please enter minimum time (hh:mm): ");
+		minTime = S8.next();
+		
+		String pattern = "kk:mm";
+		
+		System.out.println("Please enter maximum time (hh:mm): ");
+		maxTime = S8.next();
+		
+		SimpleDateFormat format = new SimpleDateFormat(pattern);
+		
+		String[] startparts = minTime.split(":");
+		String[] endparts = maxTime.split(":");
+		
+		int hours = Integer.parseInt(startparts[0])/Integer.parseInt(endparts[0]);
+		int minutes = Integer.parseInt(startparts[1])/Integer.parseInt(endparts[1]);
+		
+		maxCol = (hours * 60)/15;
+		
+		String[][] newArray = new String[parts.length -1][maxCol];
+		
 		for(int i = 0; i < parts.length; i++) 
 		{
 			
 			
+			found = this.findTree(parts[i]);
 			
+			if(found == null) 
+			{
+				
+				
+				System.out.println("Could not find.");
+				valid = false;
+				
+				
+			}
+			else
+			{
+				
+				found.getMyDiary();
+				
+				
+			}
 			
 			
 		}
@@ -558,7 +613,7 @@ public class Tree {
 	}
 	
 	
-	
+
 	/** 
 	* Main method
 	* 
