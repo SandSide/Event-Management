@@ -675,6 +675,7 @@ public class Diary {
 	    	System.out.println();
 	    	
 		}
+		
 		else
 		{
 			
@@ -683,7 +684,22 @@ public class Diary {
 			
 		}
 		
-	
+		
+		Collections.sort(myEvents, new Comparator<Event>() 
+		{
+			
+		    @Override
+		    public int compare(Event o1, Event o2) 
+		    {
+		    	
+		    	System.out.println(o1.getStartDate());
+		    	System.out.println(o2.getStartDate());
+		    	System.out.println();
+		        return o1.getStartDate().compareTo(o2.getEndDate());
+		        
+		    }
+
+		});
 		
 	}
 	
@@ -1226,12 +1242,14 @@ public class Diary {
 		D1.addEvent("20/02/1992","13:00", "13:30", "SDas", 4);
 		D1.addEvent("20/02/1992","11:00", "12:00", "SDas", 4);
 		D1.addEvent("20/02/1992","11:30", "12:30", "SDas", 4);
-		D1.findEvent("20/02/1992","12:00");
+		
+		///D1.findEvent("20/02/1992","12:00");
 		//D1.addEvent("20/02/1992","13:00", "13:30", "SDas", 4);
 		//D1.addEvent("20/02/1992","14:45", "25:15", "SDas", 4);
 		//D1.addEvent("20/02/1992","15:45", "16:45", "SDas", 4);
 		//D1.printList();
 		//D1.editStartTime(D1.findEvent("20/02/1992","12:00"));
-		System.out.println(D1.searchMeeting().getEndDate());
+	///	System.out.println(D1.searchMeeting().getEndDate());
+		D1.printList();
 	}
 }
