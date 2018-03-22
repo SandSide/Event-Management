@@ -50,7 +50,7 @@ public class Diary {
 		
 		
 		System.out.println();
-		System.out.print("Please enter the day of the event: ");
+		System.out.print("Please enter the day of the meeting you want to find: ");
 		
 		day = S2.nextLine();
 		
@@ -61,7 +61,7 @@ public class Diary {
 			
 			System.out.println();
 			System.out.println("Invalid Input.");
-			System.out.print("Please enter the day of the event: ");
+			System.out.print("Please enter the day of the meeting you want to find: ");
 			
 			day = S2.nextLine();
 			
@@ -70,7 +70,7 @@ public class Diary {
 			
 		
 		System.out.println();
-		System.out.print("Please enter the month of the event: ");
+		System.out.print("Please enter the month of the meeting you want to find: ");
 		
 		month = S2.nextLine();
 		
@@ -81,7 +81,7 @@ public class Diary {
 			
 			System.out.println();
 			System.out.println("Invalid Input.");
-			System.out.print("Please enter the month of the event: ");
+			System.out.print("Please enter the month of the meeting you want to find: ");
 			
 			month = S2.nextLine();
 			
@@ -90,7 +90,7 @@ public class Diary {
 		
 		
 		System.out.println();
-		System.out.print("Please enter the year of the event: ");
+		System.out.print("Please enter the year of the meeting you want to find: ");
 		
 		year = S2.nextLine();
 		
@@ -108,7 +108,7 @@ public class Diary {
 		    System.out.println();
 			System.out.println("Invalid Input.");
 			System.out.println("The year already passed.");
-			System.out.print("Please enter the year of the event: ");
+			System.out.print("Please enter the year of the meeting: ");
 					
 			year = S2.nextLine();
 			num = Integer.parseInt(year);
@@ -121,7 +121,7 @@ public class Diary {
 		
 		System.out.println();
 		System.out.println("Possible times are from 8am till 6pm.");
-		System.out.print("Please enter the Meeting Start Time Hour: " );
+		System.out.print("Please enter the start time hour of the meeting you want to find: " );
 	
 		startTimeHour = S2.nextLine();
 		
@@ -132,7 +132,7 @@ public class Diary {
 			
 			System.out.println();
 			System.out.println("Invalid Input.");
-			System.out.print("Please enter new start time hour: ");
+			System.out.print("Please enter the start time hour: ");
 			
 			startTimeHour = S2.nextLine();
 			num = Integer.parseInt(startTimeHour);
@@ -180,12 +180,12 @@ public class Diary {
 		
 		startTime = startTimeHour + ":" + startTimeMinute;
 		
-		return (this.findEvent(date, startTime));
+		return (this.findMeeting(date, startTime));
 		
 	}
 	
 	
-	public Event findEvent(String day, String time) 
+	public Event findMeeting(String day, String time) 
 	{
 		
 		String pattern = "dd/MM/yyyy kk:mm";
@@ -308,7 +308,7 @@ public class Diary {
 		
 		
 		System.out.println();
-		System.out.print("Please enter the day of the event: ");
+		System.out.print("Please enter the day of the meeting: ");
 		
 		day = S2.nextLine();
 		
@@ -319,7 +319,7 @@ public class Diary {
 			
 			System.out.println();
 			System.out.println("Invalid Input.");
-			System.out.print("Please enter the day of the event: ");
+			System.out.print("Please enter the day of the meeting: ");
 			
 			day = S2.nextLine();
 			
@@ -328,7 +328,7 @@ public class Diary {
 			
 		
 		System.out.println();
-		System.out.print("Please enter the month of the event: ");
+		System.out.print("Please enter the month of the meeting: ");
 		
 		month = S2.nextLine();
 		
@@ -339,7 +339,7 @@ public class Diary {
 			
 			System.out.println();
 			System.out.println("Invalid Input.");
-			System.out.print("Please enter the month of the event: ");
+			System.out.print("Please enter the month of the meeting: ");
 			
 			month = S2.nextLine();
 			
@@ -348,7 +348,7 @@ public class Diary {
 		
 		
 		System.out.println();
-		System.out.print("Please enter the year of the event: ");
+		System.out.print("Please enter the year of the meeting: ");
 		
 		year = S2.nextLine();
 		
@@ -366,7 +366,7 @@ public class Diary {
 		    System.out.println();
 			System.out.println("Invalid Input.");
 			System.out.println("The year already passed.");
-			System.out.print("Please enter the year of the event: ");
+			System.out.print("Please enter the year of the meeting: ");
 					
 			year = S2.nextLine();
 			num = Integer.parseInt(year);
@@ -390,7 +390,7 @@ public class Diary {
 			
 			System.out.println();
 			System.out.println("Invalid Input.");
-			System.out.print("Please enter new start time hour: ");
+			System.out.print("Please enter meeting start time hour: ");
 			
 			startTimeHour = S2.nextLine();
 			num = Integer.parseInt(startTimeHour);
@@ -403,7 +403,7 @@ public class Diary {
 		
 		System.out.println();
 		System.out.println("Possible minutes are 0, 15, 30, 45 & 60 minutes.");
-		System.out.print("Please enter start time minute: ");
+		System.out.print("Please enter meeting start time minute: ");
 		
 		startTimeMinute = S2.nextLine();
 		
@@ -422,7 +422,7 @@ public class Diary {
 			System.out.println();
 			System.out.println("Invalid Input.");
 			System.out.println("Possible minutes are 0, 15, 30, 45 & 60 minutes.");
-			System.out.print("Please enter start time minute: ");
+			System.out.print("Please enter meeting start time minute: ");
 			
 			duration = S2.nextLine();
 			num = Integer.parseInt(duration);
@@ -504,7 +504,7 @@ public class Diary {
 			
 		}
 		
-		if(findEvent(date, startTime) != null)
+		if(findMeeting(date, startTime) != null)
 		{
 		
 			this.addEvent(date, startTime, endTime, desc, capacity);
@@ -630,7 +630,7 @@ public class Diary {
 			num5 = 15 + num5;
 			checkTime = partss[0] + ":" + String.valueOf(num5);
 	
-			N = this.findEvent(day, checkTime);
+			N = this.findMeeting(day, checkTime);
 			
 			if(N == null) 
 			{
@@ -642,7 +642,7 @@ public class Diary {
 		}
 		
 		
-		N = findEvent(startDate, startTime);
+		N = findMeeting(startDate, startTime);
 		
 		if(N == null && num6 == num4)
 		{
@@ -765,49 +765,49 @@ public class Diary {
 					//If choice = 1 then it calls method testAutomated().
 					//Calls lineBreak method.
 					case 1:
-						this.editDate(this.findEvent());
+						this.editDate(this.searchMeeting());
 						lineBreak();
 						break;
 						
 					//If choice = 2 then it calls method singlePlayer().
 					//Calls lineBreak method.
 					case 2:
-						this.editStartTime(this.findEvent());
+						this.editStartTime(this.searchMeeting());
 						lineBreak();
 						break;
 		
 					//If choice = 3 then it calls method multiplayer()
 					//Calls lineBreak method.
 					case 3:
-						this.editEndTime(this.findEvent());
+						this.editEndTime(this.searchMeeting());
 						lineBreak();
 						break;
 						
 					//If choice = 3 then it calls method multiplayer()
 					//Calls lineBreak method.
 					case 4:
-						this.editDesc(this.findEvent());
+						this.editDesc(this.searchMeeting());
 						lineBreak();
 						break;
 						
 					//If choice = 3 then it calls method multiplayer()
 					//Calls lineBreak method.
 					case 5:
-						this.editCap(this.findEvent());;
+						this.editCap(this.searchMeeting());;
 						lineBreak();
 						break;
 					
 						//If choice = 3 then it calls method multiplayer()
 					//Calls lineBreak method.
 					case 6:
-						this.editEndTime(this.findEvent());
+						this.editEndTime(this.searchMeeting());
 						lineBreak();
 						break;
 						
 					//If choice = 0 then displays exit message.
 					//Calls lineBreak method.
 					case 0:
-						System.out.println("Stopping Program.");
+						System.out.println("Exiting.");
 						lineBreak();
 						break;
 							
@@ -1243,13 +1243,6 @@ public class Diary {
 		D1.addEvent("20/02/1992","11:00", "12:00", "SDas", 4);
 		D1.addEvent("20/02/1992","11:30", "12:30", "SDas", 4);
 		
-		///D1.findEvent("20/02/1992","12:00");
-		//D1.addEvent("20/02/1992","13:00", "13:30", "SDas", 4);
-		//D1.addEvent("20/02/1992","14:45", "25:15", "SDas", 4);
-		//D1.addEvent("20/02/1992","15:45", "16:45", "SDas", 4);
-		//D1.printList();
-		//D1.editStartTime(D1.findEvent("20/02/1992","12:00"));
-	///	System.out.println(D1.searchMeeting().getEndDate());
-		D1.printList();
+		D1.editEvent();
 	}
 }

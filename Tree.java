@@ -3,7 +3,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Tree {
@@ -494,6 +497,7 @@ public class Tree {
 		{
 			
 			// Display a message stating it was deleted.
+			System.out.println();
 			System.out.println("The TreeNode was deleted.");
 			
 		}
@@ -503,6 +507,7 @@ public class Tree {
 		{
 			
 			// Display a message stating it was not deleted.
+			System.out.println();
 			System.out.println("The TreeNode was not deleted.");
 			
 		}
@@ -547,59 +552,122 @@ public class Tree {
 		String date;
 		String minTime;
 		String maxTime;
-		
-		
-		
-		boolean valid;
-		
-		int maxCol;
-		
-		TreeNode found;
-		
-		System.out.println("Please enter group of people seperated by , ");
-		names = S8.next();
-		
-		String[] parts = names.split(",");
-		
-		System.out.println("Please enter minimum time (hh:mm): ");
-		minTime = S8.next();
+		String minTimeCopy;
+		String maxTimeCopy;
 		
 		String pattern = "kk:mm";
 		
+		boolean valid = true;
+		
+		int maxCol;
+		int currentCol;
+		int num;
+		
+		TreeNode found;
+		Date currentDate = new Date();
+		
+		int year = currentDate.getYear();
+		int day = currentDate.getDate();
+		int month = currentDate.getMonth() + 1;
+		
+		year = year + 1900;
+		date = day + "/" + month + "/" + year;
+		
+		System.out.println();
+		System.out.println();
+		System.out.print("Please enter group of people seperated by , : ");
+		names = S8.next();
+		
+		String[] parts = names.split(",");
+			
+		System.out.println("Please enter minimum time (hh:mm): ");
+		minTime = S8.next();
+		
+	
 		System.out.println("Please enter maximum time (hh:mm): ");
 		maxTime = S8.next();
 		
+		
+		minTimeCopy = minTime;
+		maxTimeCopy = maxTime;
+		
+		
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
+	
 		
-		String[] startparts = minTime.split(":");
-		String[] endparts = maxTime.split(":");
+		String[][] newArray = new String[parts.length][280];
 		
-		int hours = Integer.parseInt(startparts[0])/Integer.parseInt(endparts[0]);
-		int minutes = Integer.parseInt(startparts[1])/Integer.parseInt(endparts[1]);
-		
-		maxCol = (hours * 60)/15;
-		
-		String[][] newArray = new String[parts.length -1][maxCol];
 		
 		for(int i = 0; i < parts.length; i++) 
 		{
 			
+			minTimeCopy = minTime;
+			maxTimeCopy = maxTime;
 			
 			found = this.findTree(parts[i]);
 			
 			if(found == null) 
 			{
 				
-				
-				System.out.println("Could not find.");
 				valid = false;
 				
-				
 			}
+			
 			else
 			{
 				
-				found.getMyDiary();
+				format = new SimpleDateFormat("kk:mm");
+				currentCol = 0;
+				
+				Diary N = found.getMyDiary();
+				
+				while(minTimeCopy.equals(maxTimeCopy) != true) 
+				{
+					
+					System.out.println(minTimeCopy);
+					System.out.println(maxTimeCopy);
+					System.out.println();
+					
+					Event D = new Event();
+					
+					D = N.findMeeting(date, minTimeCopy);
+					
+					if(D == null) 
+					{
+						
+						newArray[i][currentCol] = minTime;
+						currentCol++;
+						
+					}
+					
+					String[]startparts = minTimeCopy.split(":");
+					
+					num = Integer.parseInt(startparts[1]) + 15;
+					minTimeCopy = startparts[0] + ":" + num;
+
+					
+					System.out.println(minTimeCopy);
+					
+					try 
+					{   	
+						
+						 D.setStartDate(format.parse(minTimeCopy));
+						 minTimeCopy = format.format(D.getStartDate());
+						 
+						 format = new SimpleDateFormat("dd/MM/yyyy");
+						 D.setStartDate(format.parse(date));
+						 date = format.format(D.getStartDate());
+					    	
+					} 
+					    
+					catch (ParseException e) 
+					{
+					    	
+					     e.printStackTrace();
+					      
+					}
+					
+				}
 				
 				
 			}
@@ -607,11 +675,37 @@ public class Tree {
 			
 		}
 		
-		
-		
-		
+		if(valid == true) 
+		{
+			
+			for(int i = 0; i < parts.length; i++) 
+			{
+				for(int j = 0; j <280; j++) 
+				{
+					
+					if(newArray[i][j] != null) 
+					{
+						
+						System.out.print(newArray[i][j] + " ");
+						
+					}
+				}
+				
+				System.out.println();
+			}
+			
+		}
+	
 	}
 	
+	public void addNewMeeting() 
+	{
+		
+		(this.findTree("A")).getMyDiary().addEvent("22/03/2018","12:00", "13:00", "SDas", 4);
+		(this.findTree("B")).getMyDiary().addEvent("20/02/2018","12:00", "13:00", "SDas", 4);
+		this.findTree("A").getMyDiary().printList();
+		this.findTree("B").getMyDiary().printList();
+	}
 	
 
 	/** 
@@ -643,8 +737,15 @@ public class Tree {
 		T.addNewTree("BoB");
 		T.addNewTree("sim");
 		T.traverseTree(T.getRoot());
+		//T.deleteTreeNode("E");
+		T.deleteTreeNode("A");
+		T.deleteTreeNode("L");
 		T.deleteTreeNode("E");
+		T.deleteTreeNode("sim");
+		T.deleteTreeNode("F");
+		T.addNewMeeting();
 		T.traverseTree(T.getRoot());
+		T.searchGroup();
 
 	}
 }

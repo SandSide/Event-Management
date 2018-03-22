@@ -3,7 +3,7 @@ import java.util.LinkedList;
 public class TreeNode {
 	
 	public String name;
-	public LinkedList<Diary> myDiary;
+	public Diary myDiary;
 	public TreeNode left;
 	public TreeNode right;
 
@@ -12,7 +12,7 @@ public class TreeNode {
 	{
 		
 		name = staff;
-		myDiary = new LinkedList<Diary>();
+		myDiary = new Diary();
 		left = null;
 		right = null;
 		
@@ -27,11 +27,11 @@ public class TreeNode {
 		this.name = name;
 	}
 
-	public LinkedList<Diary> getMyDiary() {
+	public Diary getMyDiary() {
 		return myDiary;
 	}
 
-	public void setMyDiary(LinkedList<Diary> myDiary) {
+	public void setMyDiary(Diary myDiary) {
 		this.myDiary = myDiary;
 	}
 
@@ -51,13 +51,5 @@ public class TreeNode {
 		this.right = right;
 	}
 
-	public TreeNode()
-	{
-		
-		myDiary = new LinkedList<Diary>();
-		left = null;
-		right = null;
-	
-	}
 	
 }
