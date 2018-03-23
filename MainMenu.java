@@ -146,8 +146,18 @@ public class MainMenu {
 	public void automatedRun() 
 	{
 		
-		myTree.addNewTreeNode("")
-		;
+		myTree.addNewTreeNode("SAD");
+		myTree.findTreeNode("SAD").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("SAD").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("SAD").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("SAD").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		
+		myTree.addNewTreeNode("BOB");
+		myTree.findTreeNode("BOB").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("BOB").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("BOB").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("BOB").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		
 	}
 	
 	public void addStaff() 
@@ -181,11 +191,22 @@ public class MainMenu {
 	public void displayStaff() 
 	{
 		
-		System.out.println();
-		System.out.println("Displaying Staff:");
-		myTree.traverseTree(myTree.getRoot());
-		System.out.println();
+		if(myTree.getRoot() != null) 
+		{
+			System.out.println();
+			System.out.println("Displaying Staff:");
+			myTree.traverseTree(myTree.getRoot());
+			System.out.println();
+		}
 		
+		else
+		{
+			
+			System.out.println();
+			System.out.println("Tree empty. Could not display Tree.");
+			this.wait(200);
+			
+		}
 	}
 	
 	public void deleteStaff() 
@@ -275,6 +296,8 @@ public class MainMenu {
 		}
 		
 	}
+	
+	
 	
 	
 	public static void main(String[] args) {
