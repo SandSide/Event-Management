@@ -136,7 +136,7 @@ public class TreeNode {
 						break;
 						
 					case "5":
-						myDiary.editEvent();
+						myDiary.editEvent(myDiary.searchMeeting());
 						lineBreak();
 						break;
 							
@@ -177,15 +177,5 @@ public class TreeNode {
 		}
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		TreeNode T = new TreeNode("Sam");
-		T.myDiary.addEvent("12/2/2018", "12:00" ,"12:45", "SAd", 2);
-		T.myDiary.printList();
-		//T.processUserDiaryChoices();
-		T.myDiary.editEvent();
-		//System.out.println(T.myDiary.searchMeeting());
-	}
 	
 }

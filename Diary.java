@@ -918,8 +918,13 @@ public class Diary {
 			System.out.println("Could not find meeting.");
 			
 		}
+		else
+		{
+			System.out.println();
+			System.out.println("Editing: " + date + " " + startTime);
+			
+		}
 		
-		System.out.println(date + " " + startTime);
 		return (this.findMeeting(date, startTime));
 		
 	}
@@ -959,105 +964,114 @@ public class Diary {
 	
 	}
 	
-	public void editEvent() 
+	public void editEvent(Event node) 
 	{
 		
-		//Initialises variables
-		int choice = 0;
-			 
-		try {
-			
-			//Does a do while loop.
-			do{
-				
-				//Calls displayMenu method.
-				this.displayMenu();
-			
-				//Creates an instance of a scanner, which records next int value entered.
-				Scanner s1 = new Scanner(System.in);
-				
-				choice = s1.nextInt();
-			
-				//Checks the value of choice and does something based on that value.
-				switch (choice)
-				{
-						
-					//If choice = 1 then it calls method testAutomated().
-					//Calls lineBreak method.
-					case 1:
-						this.editDate(this.searchMeeting());
-						lineBreak();
-						break;
-						
-					//If choice = 2 then it calls method singlePlayer().
-					//Calls lineBreak method.
-					case 2:
-						this.editStartTime(this.searchMeeting());
-						lineBreak();
-						break;
-		
-					//If choice = 3 then it calls method multiplayer()
-					//Calls lineBreak method.
-					case 3:
-						this.editEndTime(this.searchMeeting());
-						lineBreak();
-						break;
-						
-					//If choice = 3 then it calls method multiplayer()
-					//Calls lineBreak method.
-					case 4:
-						this.editDesc(this.searchMeeting());
-						lineBreak();
-						break;
-						
-					//If choice = 3 then it calls method multiplayer()
-					//Calls lineBreak method.
-					case 5:
-						this.editCap(this.searchMeeting());;
-						lineBreak();
-						break;
-					
-						//If choice = 3 then it calls method multiplayer()
-					//Calls lineBreak method.
-					case 6:
-						this.editEndTime(this.searchMeeting());
-						lineBreak();
-						break;
-						
-					//If choice = 0 then displays exit message.
-					//Calls lineBreak method.
-					case 0:
-						System.out.println("Stopping Program.");
-						lineBreak();
-						break;
-							
-					//If it does not meet the previous cases, it displays that the choice does not exist.
-					//Calls lineBreak method.
-					default:
-						System.out.println("The Choice [" + choice + "] does not exist.");
-						lineBreak();
-						break;
-				}
-					
-				System.out.println();
-					
-			} 
-			
-			//Continuous the loop when choice does not equal to 0
-			while(choice != 0);	
-			
-		}
-			
-		//If can try.
-		catch(Exception e)
+		if(node != null) 
 		{
+			
+			//Initialises variables
+			int choice = 0;
+				 
+			try {
 				
-			//Displays error message.
-			System.out.println();
-			System.out.println("Invalid Input.");
-
+				//Does a do while loop.
+				do{
+					
+					//Calls displayMenu method.
+					this.displayMenu();
+				
+					//Creates an instance of a scanner, which records next int value entered.
+					Scanner s1 = new Scanner(System.in);
+					
+					choice = s1.nextInt();
+				
+					//Checks the value of choice and does something based on that value.
+					switch (choice)
+					{
+							
+						//If choice = 1 then it calls method testAutomated().
+						//Calls lineBreak method.
+						case 1:
+							this.editDate(node);
+							lineBreak();
+							break;
+							
+						//If choice = 2 then it calls method singlePlayer().
+						//Calls lineBreak method.
+						case 2:
+							this.editStartTime(node);
+							lineBreak();
+							break;
+			
+						//If choice = 3 then it calls method multiplayer()
+						//Calls lineBreak method.
+						case 3:
+							this.editEndTime(node);
+							lineBreak();
+							break;
+							
+						//If choice = 3 then it calls method multiplayer()
+						//Calls lineBreak method.
+						case 4:
+							this.editDesc(node);
+							lineBreak();
+							break;
+							
+						//If choice = 3 then it calls method multiplayer()
+						//Calls lineBreak method.
+						case 5:
+							this.editCap(node);;
+							lineBreak();
+							break;
+						
+							//If choice = 3 then it calls method multiplayer()
+						//Calls lineBreak method.
+						case 6:
+							this.editEndTime(node);
+							lineBreak();
+							break;
+							
+						//If choice = 0 then displays exit message.
+						//Calls lineBreak method.
+						case 0:
+							System.out.println("Stopping Edit.");
+							lineBreak();
+							break;
+								
+						//If it does not meet the previous cases, it displays that the choice does not exist.
+						//Calls lineBreak method.
+						default:
+							System.out.println("The Choice [" + choice + "] does not exist.");
+							lineBreak();
+							break;
+					}
+						
+					System.out.println();
+						
+				} 
+				
+				//Continuous the loop when choice does not equal to 0
+				while(choice != 0);	
+				
+			}
+				
+			//If can try.
+			catch(Exception e)
+			{
+					
+				//Displays error message.
+				System.out.println();
+				System.out.println("Invalid Input.");
+	
+			}
 		}
-
+		else
+		{
+			
+			//System.out.println("Could not find Meeting to edit.");
+			
+		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -1065,7 +1079,6 @@ public class Diary {
 	{
 		
 		String newDate;
-		
 		String startTime;
 		String endTime;
 		String day;
@@ -1073,6 +1086,7 @@ public class Diary {
 		String year;
 		int num;
 		
+		boolean edited= false;
 		
 		Date datte = new Date();
 		
@@ -1161,14 +1175,34 @@ public class Diary {
 	    	
 	    	format = new SimpleDateFormat(pattern);
 	    	
-	    	
 	    	formatedDate = (day + "/" + month + "/" + year + " " + startTime);
-	    	node.setStartDate(format.parse(formatedDate));
 	    	
-	    	formatedDate = (day + "/" + month + "/" + year + " " + endTime);
-	
-	    	node.setEndDate(format.parse(formatedDate));
+	    	//System.out.println(formatedDate.compareTo(format.format(node.getEndDate())));
+	    	
+	    	Date currentDate = new Date();
+	    	
+	    	String currentDay = currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + (currentDate.getYear() +1900);
+	    	
+	    	if(formatedDate.compareTo(currentDay) >=0) 
+	    	{
 	    		
+	    		formatedDate = (day + "/" + month + "/" + year + " " + startTime);
+			    node.setStartDate(format.parse(formatedDate));
+			    	
+			    formatedDate = (day + "/" + month + "/" + year + " " + endTime);
+			
+			    node.setEndDate(format.parse(formatedDate));
+			    
+	    	}
+	    	
+	    	else
+	    	{
+	    		
+	    		System.out.println();
+	    		System.out.println("Could not change date since is was before todays date.");
+	    		
+	    		
+	    	}
 
 	    } 
 	    
@@ -1220,14 +1254,14 @@ public class Diary {
 		}
 		
 		System.out.println();
-		System.out.println("Possible minutes are 15, 30, 45 & 60 minutes.");
+		System.out.println("Possible minutes are 0, 15, 30, 45 & 60 minutes.");
 		System.out.print("Please enter start time minute: ");
 		
 		startTimeMinute = S4.nextLine();
 		
 		num = Integer.parseInt(startTimeMinute);
 		
-		if(num == 15 || num == 30 || num == 45 || num ==60) 
+		if(num == 0 || num == 15 || num == 30 || num == 45 || num ==60) 
 		{
 			
 			valid = true;
@@ -1239,13 +1273,13 @@ public class Diary {
 			
 			System.out.println();
 			System.out.println("Invalid Input.");
-			System.out.println("Possible minutes are 15, 30, 45 & 60 minutes.");
+			System.out.println("Possible minutes are 0, 15, 30, 45 & 60 minutes.");
 			System.out.print("Please enter start time minute: ");
 			
 			duration = S4.nextLine();
 			num = Integer.parseInt(duration);
 			
-			if(num == 15 || num == 30 || num == 45 || num == 60) 
+			if(num == 0 ||num == 15 || num == 30 || num == 45 || num == 60) 
 			{
 				
 				valid = true;
@@ -1274,10 +1308,21 @@ public class Diary {
 	    	
 	    	formatedDate = (Date + " " + startTimeHour + ":" + startTimeMinute);
 	    	
-	    	
-	    	System.out.println(formatedDate);
-	    	node.setStartDate(format.parse(formatedDate));
-	    	
+	    	if(formatedDate.compareTo(format.format(node.getEndDate())) >= 0) 
+	    	{
+	    		
+	    		System.out.println();
+	    		System.out.println("Could not edit since the entered date is equal to or after end time.");
+	    		 		
+	    	}
+	    	else
+	    	{
+	    		
+	    		System.out.println();
+		    	System.out.println("The start time was changed to: " + startTimeHour + ":" + startTimeMinute);
+		    	node.setStartDate(format.parse(formatedDate));
+		    	
+	    	}
 	    } 
 	    
 	    catch (ParseException e) 
@@ -1287,7 +1332,6 @@ public class Diary {
 	      
 	    }
 	    
-	    System.out.print(node.getStartDate());
 		
 	}
 	
@@ -1329,7 +1373,6 @@ public class Diary {
 			
 		}
 
-		
 		while(valid == false) 
 		{
 			
@@ -1364,6 +1407,8 @@ public class Diary {
 				
 		endTime = startTimeHour + ":" + num;	
 		
+		String startTime = startTimeHour + ":" + startTimeMinute;
+		
 	    try 
 	    {
 	    		
@@ -1372,17 +1417,29 @@ public class Diary {
 	    	format = new SimpleDateFormat(pattern);
 			
 	    	Date = format.format(node.getStartDate());
-	    	
-	    	
+
 	    	pattern = "dd/MM/yyyy kk:mm";
 	    	
 	    	format = new SimpleDateFormat(pattern);
 	    	
-	    	
 	    	formatedDate = (Date + " " + endTime);
 	    	
-	    	node.setEndDate(format.parse(formatedDate));
+	    	if(formatedDate.compareTo(startTime) <= 0) 
+	    	{
+	    		
+	    		System.out.println();
+	    		System.out.println("Could not edit since the entered date is equal to or before start time.");
+	    		 		
+	    	}
 	    	
+	    	else
+	    	{
+
+	    		System.out.println();
+	    		System.out.println("End Time was changed to: " + endTime);
+	    		node.setEndDate(format.parse(formatedDate));
+	    		
+	    	}
 	    } 
 	    
 	    catch (ParseException e) 
@@ -1392,7 +1449,6 @@ public class Diary {
 	      
 	    }
 		
-	    System.out.print(node.getEndDate());
 	    
 	}
 	
@@ -1409,7 +1465,8 @@ public class Diary {
 		
 		node.setDesciption(newDesc);
 		
-		System.out.print(node.getDesciption());
+		System.out.println();
+		System.out.println("Change descipriton to: " + node.getDesciption());
 		
 	}
 	
@@ -1437,7 +1494,8 @@ public class Diary {
 		
 		node.setCapacity(newCap);
 		
-		System.out.print(node.getCapacity());
+		System.out.println();
+		System.out.println("Change capacity to: " + node.getCapacity());
 		
 	}
 	

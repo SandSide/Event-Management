@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -34,7 +35,7 @@ public class MainMenu {
 	{
 		
 		//Displays Choice Options.
-		System.out.println("Please select one of the tests below.");
+		System.out.println("Please select one of the options below.");
 		System.out.println();
 		System.out.println("1: Populate Tree.");
 		System.out.println("2: Add Staff.");
@@ -203,10 +204,10 @@ public class MainMenu {
 		{
 			
 			System.out.println();
-			System.out.println("Tree empty. Could not display Tree.");
-			this.wait(200);
+			System.out.println("Tree empty. Can not display Tree.");
 			
 		}
+		
 	}
 	
 	public void deleteStaff() 
@@ -214,26 +215,40 @@ public class MainMenu {
 		
 		Scanner S15 = new Scanner(System.in);
 		
-		System.out.println();
-		System.out.print("Please enter name of the staff you want to delete: ");
-		String name = S15.nextLine();
-		
-		TreeNode find = myTree.findTreeNode(name);
-		
-		if(find !=  null) 
+		if(myTree.getRoot() != null) 
 		{
 			
 			System.out.println();
-			myTree.deleteTreeNode(name);
+			System.out.print("Please enter name of the staff you want to delete: ");
+			String name = S15.nextLine();
+			TreeNode find = myTree.findTreeNode(name);
 			
-		}
+			if(find !=  null) 
+			{
+				
+				System.out.println();
+				myTree.deleteTreeNode(name);
+				
+			}
 
+			else
+			{
+				
+				System.out.println("The Staff does not Exist.");
+				
+			}
+			
+		}	
 		else
 		{
 			
-			System.out.println("The Staff does not Exist.");
+			System.out.println();
+			System.out.println("Tree empty. Can not Delete.");
 			
 		}
+		
+		
+
 		
 	}
 	
@@ -242,56 +257,77 @@ public class MainMenu {
 		
 		Scanner S18 = new Scanner(System.in);
 		
-		System.out.println();
-		System.out.println("Please enter one of the following searches.");
-		System.out.println("1: Search Staff.");
-		System.out.println("2: Search Group.");
-		System.out.println("");
-		System.out.print("Enter: ");
-		
-		int choice = S18.nextInt();
-		
-		S18 = new Scanner(System.in);
-		
-		if (choice == 1) 
+		if(myTree.getRoot() != null) 
 		{
 			
 			System.out.println();
-			System.out.print("Please enter name of the staff you want to find: ");
+			System.out.println("Please enter one of the following searches.");
+			System.out.println("1: Search Staff.");
+			System.out.println("2: Search Group.");
+			System.out.println("0: Exit.");
+			System.out.println("");
+			System.out.print("Enter: ");
 			
-			String name = S18.nextLine();
+			int choice = S18.nextInt();
 			
-			TreeNode find = myTree.findTreeNode(name);
+			S18 = new Scanner(System.in);
 			
-			if(find !=  null) 
+			if (choice == 1) 
 			{
 				
-				find.displayDiaryMenu();
-				find.processUserDiaryChoices();
+				System.out.println();
+				System.out.print("Please enter name of the staff you want to find: ");
+				
+				String name = S18.nextLine();
+				
+				TreeNode find = myTree.findTreeNode(name);
+				
+				if(find !=  null) 
+				{
+					
+					find.displayDiaryMenu();
+					find.processUserDiaryChoices();
+					
+				}
+
+				else
+				{
+					
+					System.out.println("");
+					System.out.println("The Staff does not Exist.");
+					
+				}
+				
 				
 			}
-
+			
+			else if (choice == 2) 
+			{
+				
+				myTree.searchGroup();
+				
+			}
+			else if (choice == 0) 
+			{
+				
+				System.out.println("Exiting.");
+				
+			}
+			
 			else
 			{
 				
-				System.out.println("");
-				System.out.println("The Staff does not Exist.");
+				System.out.println("Invalid Search.");
 				
 			}
 			
-			
 		}
 		
-		else if (choice == 2) 
-		{
-			
-			myTree.searchGroup();
-			
-		}
 		else
 		{
 			
-			System.out.println("Invalid Search.");
+			System.out.println();
+			System.out.println("Tree empty. Can not search Tree.");
 			
 		}
 		
@@ -302,7 +338,7 @@ public class MainMenu {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+    	
 		MainMenu M = new MainMenu();
 		M.processUserChoices();
 	}
