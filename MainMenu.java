@@ -5,7 +5,7 @@ public class MainMenu {
 
 	private Tree myTree;
 	
-	public void MainMenu()
+	public MainMenu()
 	{
 		
 		myTree = new Tree();
@@ -17,6 +17,7 @@ public class MainMenu {
 	* Displays a a dotted line.
 	*
 	*/
+	
 	public void lineBreak() {
 		
 		//Displays "---------------------------------------------------------------".
@@ -57,7 +58,7 @@ public class MainMenu {
 	{
 		
 		//Initialises variables
-		int choice = 0;
+		String choice = "0";
 		 
 		try {
 			
@@ -71,7 +72,7 @@ public class MainMenu {
 				//Creates an instance of a scanner, which records next int value entered.
 				Scanner S14 = new Scanner(System.in);
 			
-				choice = S14.nextInt();
+				choice = S14.nextLine();
 			
 				//Checks the value of choice and does something based on that value.
 				switch (choice)
@@ -79,37 +80,36 @@ public class MainMenu {
 					
 					//If choice = 1 then it calls method testAutomated().
 					//Calls lineBreak method.
-					case 1:
+					case "1":
 						automatedRun();
 						lineBreak();
 						break;
 					
-					case 2:
-						System.out.println("Yousaf");
+					case "2":
 						this.addStaff();
-						System.out.println("Yousaf");
 						lineBreak();
 						break;
 						
-					case 3:
-						displayStaff();
+					case "3":
+						this.displayStaff();
 						lineBreak();
 						break;
 						
-					case 4:
-						deleteStaff();
+					case "4":
+						this.deleteStaff();
 						lineBreak();
 						break;
 						
-					case 5:
-						searchStaff();
+					case "5":
+						this.searchStaff();
 						lineBreak();
 						break;
 							
 					//If choice = 0 then displays exit message.
 					//Calls lineBreak method.
-					case 0:
+					case "0":
 						System.out.println("Stopping Program.");
+						System.exit(0);
 						lineBreak();
 						break;
 						
@@ -126,7 +126,7 @@ public class MainMenu {
 			} 
 		
 			//Continuous the loop when choice does not equal to 0
-			while(choice != 0);	
+			while(choice != "0");	
 		
 		}
 		
@@ -146,6 +146,8 @@ public class MainMenu {
 	public void automatedRun() 
 	{
 		
+		myTree.addNewTreeNode("")
+		;
 	}
 	
 	public void addStaff() 
@@ -153,12 +155,13 @@ public class MainMenu {
 		
 		Scanner S17 = new Scanner(System.in);
 		
-		String name = S17.nextLine();
-		
 		System.out.println();
 		System.out.print("Please enter new staff name: ");
+		String name = S17.nextLine();
 		
-		TreeNode find = myTree.findTreeNode(name);
+		TreeNode find = new TreeNode("S");
+		find = myTree.findTreeNode(name);
+		
 		
 		if(find ==  null) 
 		{
@@ -180,7 +183,10 @@ public class MainMenu {
 	public void displayStaff() 
 	{
 		
+		System.out.println();
+		System.out.println("Displaying Staff:");
 		myTree.traverseTree(myTree.getRoot());
+		System.out.println();
 		
 	}
 	
@@ -198,7 +204,10 @@ public class MainMenu {
 		if(find !=  null) 
 		{
 			
+			System.out.println();
 			myTree.deleteTreeNode(name);
+			
+			System.out.print("Staff was deleted.");
 			
 		}
 
@@ -220,8 +229,8 @@ public class MainMenu {
 		System.out.println("Please enter one of the following searches.");
 		System.out.println("1: Search Staff.");
 		System.out.println("2: Search Group.");
-		System.out.println();
-		System.out.print(" ");
+		System.out.println("");
+		System.out.print("Enter: ");
 		
 		int choice = S18.nextInt();
 		
@@ -237,13 +246,15 @@ public class MainMenu {
 			if(find !=  null) 
 			{
 				
-				find.getMyDiary().
+				find.displayMenu();
+				find.processUserDiaryChoices();
 				
 			}
 
 			else
 			{
 				
+				System.out.println("");
 				System.out.println("The Staff does not Exist.");
 				
 			}
@@ -272,7 +283,6 @@ public class MainMenu {
 
 		MainMenu M = new MainMenu();
 		M.processUserChoices();
-		
 	}
 
 }
