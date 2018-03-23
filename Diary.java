@@ -261,7 +261,7 @@ public class Diary {
 		boolean found = false;
 		Event N = null;
 		
-		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy kk:mm");
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		
 		Iterator<Event> Iterator = myEvents.iterator();
 		
@@ -269,6 +269,10 @@ public class Diary {
         {
         	
         	N = Iterator.next();
+        	format = new SimpleDateFormat("dd/MM/yyyy");
+        	System.out.println("Date: " + "\t" + "\t" +  format.format(N.getStartDate()));
+        	
+        	format = new SimpleDateFormat("kk:mm");
         	System.out.println("Start Time: " + "\t" + format.format(N.getStartDate()));
         	System.out.println("End Time: " + "\t" +format.format(N.getEndDate()));
         	System.out.println("Description: " + "\t" + N.getDesciption());
@@ -304,13 +308,13 @@ public class Diary {
 		
 		Date datte = new Date();
 		
-		Scanner S2 = new Scanner(System.in);
+		Scanner S10 = new Scanner(System.in);
 		
 		
 		System.out.println();
 		System.out.print("Please enter the day of the meeting: ");
 		
-		day = S2.nextLine();
+		day = S10.nextLine();
 		
 		num = Integer.parseInt(day);
 		
@@ -321,7 +325,7 @@ public class Diary {
 			System.out.println("Invalid Input.");
 			System.out.print("Please enter the day of the meeting: ");
 			
-			day = S2.nextLine();
+			day = S10.nextLine();
 			
 			num = Integer.parseInt(day);
 		}
@@ -330,7 +334,7 @@ public class Diary {
 		System.out.println();
 		System.out.print("Please enter the month of the meeting: ");
 		
-		month = S2.nextLine();
+		month = S10.nextLine();
 		
 		num = Integer.parseInt(month);
 		
@@ -341,7 +345,7 @@ public class Diary {
 			System.out.println("Invalid Input.");
 			System.out.print("Please enter the month of the meeting: ");
 			
-			month = S2.nextLine();
+			month = S10.nextLine();
 			
 			num = Integer.parseInt(day);
 		}
@@ -350,7 +354,7 @@ public class Diary {
 		System.out.println();
 		System.out.print("Please enter the year of the meeting: ");
 		
-		year = S2.nextLine();
+		year = S10.nextLine();
 		
 		num = Integer.parseInt(year);
 		
@@ -368,7 +372,7 @@ public class Diary {
 			System.out.println("The year already passed.");
 			System.out.print("Please enter the year of the meeting: ");
 					
-			year = S2.nextLine();
+			year = S10.nextLine();
 			num = Integer.parseInt(year);
 					
 		}
@@ -381,7 +385,7 @@ public class Diary {
 		System.out.println("Possible times are from 8am till 6pm.");
 		System.out.print("Please enter the Meeting Start Time Hour: " );
 	
-		startTimeHour = S2.nextLine();
+		startTimeHour = S10.nextLine();
 		
 		num = Integer.parseInt(startTimeHour);
 		
@@ -392,7 +396,7 @@ public class Diary {
 			System.out.println("Invalid Input.");
 			System.out.print("Please enter meeting start time hour: ");
 			
-			startTimeHour = S2.nextLine();
+			startTimeHour = S10.nextLine();
 			num = Integer.parseInt(startTimeHour);
 			
 			System.out.println();
@@ -405,7 +409,7 @@ public class Diary {
 		System.out.println("Possible minutes are 0, 15, 30, 45 & 60 minutes.");
 		System.out.print("Please enter meeting start time minute: ");
 		
-		startTimeMinute = S2.nextLine();
+		startTimeMinute = S10.nextLine();
 		
 		num = Integer.parseInt(startTimeMinute);
 		
@@ -424,7 +428,7 @@ public class Diary {
 			System.out.println("Possible minutes are 0, 15, 30, 45 & 60 minutes.");
 			System.out.print("Please enter meeting start time minute: ");
 			
-			duration = S2.nextLine();
+			duration = S10.nextLine();
 			num = Integer.parseInt(duration);
 			
 			if(num == 0 || num == 15 || num == 30 || num == 45 || num == 60) 
@@ -445,7 +449,7 @@ public class Diary {
 		System.out.println("Possible durations are 15, 30, 45 & 60 minutes.");
 		System.out.print("Please enter duration of the meeting: ");
 		
-		duration = S2.nextLine();
+		duration = S10.nextLine();
 		
 		num = Integer.parseInt(duration);
 		
@@ -465,7 +469,7 @@ public class Diary {
 			System.out.println("Possible durations are 15, 30, 45 & 60 minutes.");
 			System.out.print("Please enter duration of the meeting: ");
 			
-			duration = S2.nextLine();
+			duration = S10.nextLine();
 			num = Integer.parseInt(duration);
 			
 			if(num == 15 || num == 30 || num == 45 || num ==60) 
@@ -487,12 +491,12 @@ public class Diary {
 		System.out.println();
 		System.out.print("Please enter description of the event: ");
 		
-		desc = S2.nextLine();
+		desc = S10.nextLine();
 		
 		System.out.println();
 		System.out.print("Please enter the capacity for the event: ");
 		
-		capacity = S2.nextInt();
+		capacity = S10.nextInt();
 		
 		while(capacity < 0) 
 		{
@@ -500,7 +504,7 @@ public class Diary {
 			System.out.println();
 			System.out.println("Invalid Input.");
 			System.out.print("Please enter the capacity for the event: ");
-			capacity = S2.nextInt();
+			capacity = S10.nextInt();
 			
 		}
 		
@@ -692,9 +696,6 @@ public class Diary {
 		    public int compare(Event o1, Event o2) 
 		    {
 		    	
-		    	System.out.println(o1.getStartDate());
-		    	System.out.println(o2.getStartDate());
-		    	System.out.println();
 		        return o1.getStartDate().compareTo(o2.getEndDate());
 		        
 		    }
@@ -754,9 +755,9 @@ public class Diary {
 				this.displayMenu();
 			
 				//Creates an instance of a scanner, which records next int value entered.
-				Scanner s1 = new Scanner(System.in);
+				Scanner S11 = new Scanner(System.in);
 				
-				choice = s1.nextInt();
+				choice = S11.nextInt();
 			
 				//Checks the value of choice and does something based on that value.
 				switch (choice)

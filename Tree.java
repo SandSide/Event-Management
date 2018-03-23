@@ -5,9 +5,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+
 
 public class Tree {
 
@@ -81,7 +88,7 @@ public class Tree {
      * @return Result of the search.
      *                
      */			
-	public TreeNode findTree(String name) 
+	public TreeNode findTreeNode(String name) 
 	{
 		
 		// Initialises local variables.
@@ -158,7 +165,7 @@ public class Tree {
      * @return Result of the search.
      *                
      */	
-	public boolean addNewTree(String name) 
+	public boolean addNewTreeNode(String name) 
 	{
 		
 		// Initialises local variables.
@@ -188,7 +195,7 @@ public class Tree {
 		{	
 			
 			// If ID does exist in the Binary Tree.
-			if (this.findTree(name) != null) 
+			if (this.findTreeNode(name) != null) 
 			{
 				
 				// Set added as false.
@@ -318,7 +325,7 @@ public class Tree {
 		int comparison;
 		
 		// If the ID does not exist.
-		if(this.findTree(name) == null)
+		if(this.findTreeNode(name) == null)
 		{
 			
 			// Display message to inform the user.
@@ -503,7 +510,7 @@ public class Tree {
 		}
 		
 		// If ID does exist in the Tree and was not deleted.
-		else if(this.findTree(name) != null)
+		else if(this.findTreeNode(name) != null)
 		{
 			
 			// Display a message stating it was not deleted.
@@ -543,6 +550,23 @@ public class Tree {
 		
 	}
 	
+	public Diary findDiary(String name) 
+	{
+		
+		Diary searched = this.findTreeNode(name).getMyDiary();
+		
+		if(searched != null) 
+		{
+			return this.findTreeNode(name).getMyDiary();
+		}
+		
+		return null;
+		
+		
+	}
+	
+	
+	@SuppressWarnings("deprecation")
 	public void searchGroup()
 	{
 		
@@ -555,16 +579,20 @@ public class Tree {
 		String minTimeCopy;
 		String maxTimeCopy;
 		
-		String pattern = "kk:mm";
-		
-		boolean valid = true;
-		
-		int maxCol;
+		String choiceTime;
+		String choiceTimeEnd;
+			
 		int currentCol;
 		int num;
 		
 		TreeNode found;
 		Date currentDate = new Date();
+		Diary currentDiary;
+		
+		Event copy = new Event();
+		Event currentEvent = new Event();
+		
+		boolean valid = true;
 		
 		int year = currentDate.getYear();
 		int day = currentDate.getDate();
@@ -572,6 +600,7 @@ public class Tree {
 		
 		year = year + 1900;
 		date = day + "/" + month + "/" + year;
+		
 		
 		System.out.println();
 		System.out.println();
@@ -587,13 +616,32 @@ public class Tree {
 		System.out.println("Please enter maximum time (hh:mm): ");
 		maxTime = S8.next();
 		
-		
+
 		minTimeCopy = minTime;
 		maxTimeCopy = maxTime;
 		
 		
+		String pattern = "kk:mm";
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
 	
+		try 
+		{   	
+			 format = new SimpleDateFormat("dd/MM/yyyy");
+			 
+			 copy.setStartDate(format.parse(date));
+			 date = format.format(copy.getStartDate());
+			 
+		    	
+		} 
+		    
+		catch (ParseException e) 
+		{
+		    	
+		     e.printStackTrace();
+		      
+		}
+		
+		
 		
 		String[][] newArray = new String[parts.length][280];
 		
@@ -603,8 +651,8 @@ public class Tree {
 			
 			minTimeCopy = minTime;
 			maxTimeCopy = maxTime;
-			
-			found = this.findTree(parts[i]);
+					
+			found = this.findTreeNode(parts[i]);
 			
 			if(found == null) 
 			{
@@ -616,47 +664,41 @@ public class Tree {
 			else
 			{
 				
-				format = new SimpleDateFormat("kk:mm");
 				currentCol = 0;
 				
-				Diary N = found.getMyDiary();
+				currentDiary = found.getMyDiary();
 				
 				while(minTimeCopy.equals(maxTimeCopy) != true) 
 				{
 					
-					System.out.println(minTimeCopy);
-					System.out.println(maxTimeCopy);
-					System.out.println();
+					currentEvent = currentDiary.findMeeting(date, minTimeCopy);
 					
-					Event D = new Event();
-					
-					D = N.findMeeting(date, minTimeCopy);
-					
-					if(D == null) 
+					if(currentEvent == null) 
 					{
 						
-						newArray[i][currentCol] = minTime;
+						newArray[i][currentCol] = minTimeCopy;
 						currentCol++;
 						
 					}
+				
 					
-					String[]startparts = minTimeCopy.split(":");
+					String[] startparts = minTimeCopy.split(":");
 					
-					num = Integer.parseInt(startparts[1]) + 15;
+					num = (Integer.parseInt(startparts[1])) + 15;
+					
 					minTimeCopy = startparts[0] + ":" + num;
-
-					
-					System.out.println(minTimeCopy);
-					
+							
 					try 
 					{   	
-						
-						 D.setStartDate(format.parse(minTimeCopy));
-						 minTimeCopy = format.format(D.getStartDate());
+						 format = new SimpleDateFormat("kk:mm");
+						 
+						 copy.setStartDate(format.parse(minTimeCopy));
+						 minTimeCopy = format.format(copy.getStartDate());
 						 
 						 format = new SimpleDateFormat("dd/MM/yyyy");
-						 D.setStartDate(format.parse(date));
-						 date = format.format(D.getStartDate());
+						 
+						 copy.setStartDate(format.parse(date));
+						 date = format.format(copy.getStartDate());
 					    	
 					} 
 					    
@@ -675,24 +717,94 @@ public class Tree {
 			
 		}
 		
+		
+		Set<String> setA = new HashSet<String>(); 
+		Set<String> setB = new HashSet<String>(); 
+		
 		if(valid == true) 
 		{
 			
-			for(int i = 0; i < parts.length; i++) 
+			for(int k = 0; k<280; k++) 
 			{
+				
+				if(newArray[0][k] != null) 
+				{
+					
+					setA.add(newArray[0][k]);
+					
+				}
+				
+			}
+			
+			
+			
+			for(int i = 1; i < parts.length; i++) 
+			{
+				
 				for(int j = 0; j <280; j++) 
 				{
 					
 					if(newArray[i][j] != null) 
 					{
 						
-						System.out.print(newArray[i][j] + " ");
+						setB.add(newArray[i][j]);
 						
 					}
 				}
 				
-				System.out.println();
+				setA.retainAll(setB);
+				
 			}
+			
+			List<String> sortedList = new ArrayList(setA);
+			Collections.sort(sortedList);
+			
+			System.out.println("The avaible times are: ");
+			System.out.print(sortedList);
+			
+			System.out.println("Please enter time you want (hh:mm): ");
+			choiceTime = S8.next();
+			
+			for(int i = 0; i < parts.length; i++) 
+			{
+				
+				currentDiary = this.findDiary(parts[i]);
+				
+				String[] startparts = choiceTime.split(":");
+				
+				num = (Integer.parseInt(startparts[1])) + 15;
+				
+				choiceTimeEnd = startparts[0] + ":" + num;
+				
+				try 
+				{   	
+					 format = new SimpleDateFormat("kk:mm");
+					 
+					 copy.setStartDate(format.parse(choiceTimeEnd));
+					 choiceTimeEnd = format.format(copy.getStartDate());
+				    	
+				} 
+				    
+				catch (ParseException e) 
+				{
+				    	
+				     e.printStackTrace();
+				      
+				}
+				
+				System.out.println(date + " " + choiceTime + " " + choiceTimeEnd + " " + "Group Meeting"+ " " + parts.length + 1);
+				
+				currentDiary.addEvent(date, choiceTime, choiceTimeEnd, "Group Meeting", parts.length + 1);
+				
+			}
+			
+		}
+		else
+		{
+			
+			System.out.println();
+			System.out.println("The search could not be completed as not all entered staff exist.");
+			
 			
 		}
 	
@@ -701,51 +813,11 @@ public class Tree {
 	public void addNewMeeting() 
 	{
 		
-		(this.findTree("A")).getMyDiary().addEvent("22/03/2018","12:00", "13:00", "SDas", 4);
-		(this.findTree("B")).getMyDiary().addEvent("20/02/2018","12:00", "13:00", "SDas", 4);
-		this.findTree("A").getMyDiary().printList();
-		this.findTree("B").getMyDiary().printList();
+		(this.findTreeNode("A")).getMyDiary().addEvent("23/03/2018","12:00", "13:00", "SDas", 4);
+		(this.findTreeNode("A")).getMyDiary().addEvent("23/03/2018","12:15", "13:00", "SDas", 4);
+		(this.findTreeNode("A")).getMyDiary().addEvent("23/03/2018","12:30", "13:00", "SDas", 4);
+		(this.findTreeNode("B")).getMyDiary().addEvent("23/03/2018","12:00", "13:00", "SDas", 4);
+		(this.findTreeNode("B")).getMyDiary().addEvent("23/03/2018","12:15", "13:00", "SDas", 4);
 	}
 	
-
-	/** 
-	* Main method
-	* 
-	* @param args N/A.
-	*
-	*/
-	public static void main(String[] args) 
-	{
-		// TODO Auto-generated method stub
-		
-		Tree T = new Tree();
-		T.addNewTree("A");
-		T.addNewTree("B");
-		T.addNewTree("C");
-		T.addNewTree("D");
-		T.addNewTree("E");
-		T.addNewTree("F");
-		T.addNewTree("G");
-		T.addNewTree("H");
-		T.addNewTree("J");
-		T.addNewTree("K");
-		T.addNewTree("L");
-		T.addNewTree("M");
-		T.addNewTree("N");
-		T.addNewTree("O");
-		T.addNewTree("sim");
-		T.addNewTree("BoB");
-		T.addNewTree("sim");
-		T.traverseTree(T.getRoot());
-		//T.deleteTreeNode("E");
-		T.deleteTreeNode("A");
-		T.deleteTreeNode("L");
-		T.deleteTreeNode("E");
-		T.deleteTreeNode("sim");
-		T.deleteTreeNode("F");
-		T.addNewMeeting();
-		T.traverseTree(T.getRoot());
-		T.searchGroup();
-
-	}
 }
