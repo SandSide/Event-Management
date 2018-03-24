@@ -154,11 +154,26 @@ public class MainMenu {
 		myTree.findTreeNode("SAD").myDiary.addEvent("24/02/2018", "12:00", "13:00", "Meeting", 2);
 		myTree.findTreeNode("SAD").myDiary.addEvent("24/02/2018", "13:00", "14:00", "Meeting", 2);
 		
-		myTree.addNewTreeNode("BOB");
-		myTree.findTreeNode("BOB").myDiary.addEvent("25/02/2018", "12:00", "13:00", "Meeting", 2);
-		myTree.findTreeNode("BOB").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
-		myTree.findTreeNode("BOB").myDiary.addEvent("21/02/2018", "12:00", "13:00", "Meeting", 2);
-		myTree.findTreeNode("BOB").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.addNewTreeNode("John");
+		myTree.findTreeNode("John").myDiary.addEvent("25/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("John").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("John").myDiary.addEvent("21/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("John").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("John").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2); 
+		
+		myTree.addNewTreeNode("Chris");
+		myTree.findTreeNode("Chris").myDiary.addEvent("25/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Chris").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Chris").myDiary.addEvent("21/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Chris").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Chris").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2); 
+		
+		myTree.addNewTreeNode("Jane");
+		myTree.findTreeNode("Jane").myDiary.addEvent("25/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Jane").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Jane").myDiary.addEvent("21/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Jane").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Jane").myDiary.addEvent("20/02/2018", "12:00", "13:00", "Meeting", 2); 
 		
 	}
 	
