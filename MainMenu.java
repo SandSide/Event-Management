@@ -172,32 +172,68 @@ public class MainMenu {
 	/**
      * Populates the Program with data.
      *
-     * 
+     *
      */
 	public void automatedRun() 
 	{
 		
 		// Creates Staff and adds Meetings to Staff.
-		myTree.addNewTreeNode("SAD");
-		myTree.findTreeNode("SAD").myDiary.addMeeting("20/02/2018", "12:00", "13:00", "Meeting", 2);
-		myTree.findTreeNode("SAD").myDiary.addMeeting("22/02/2018", "12:00", "13:00", "Meeting", 2);
-		myTree.findTreeNode("SAD").myDiary.addMeeting("23/02/2018", "12:00", "13:00", "Meeting", 2);
-		myTree.findTreeNode("SAD").myDiary.addMeeting("24/02/2018", "12:00", "13:00", "Meeting", 2);
-		myTree.findTreeNode("SAD").myDiary.addMeeting("24/02/2018", "13:00", "14:00", "Meeting", 2);
+		myTree.addNewTreeNode("Mason");
+		myTree.findTreeNode("Mason").myDiary.addEvent("22/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Mason").myDiary.addEvent("23/02/2018", "9:00", "10:00", "Meeting", 2);
+		myTree.findTreeNode("Mason").myDiary.addEvent("23/02/2018", "17:00", "18:00", "Meeting", 2);
+		myTree.findTreeNode("Mason").myDiary.addEvent("24/02/2018", "14:00", "14:45", "Meeting", 2);
+		myTree.findTreeNode("Mason").myDiary.addEvent("25/02/2018", "13:00", "14:00", "Meeting", 2);
 		
-		myTree.addNewTreeNode("BOB");
-		myTree.findTreeNode("BOB").myDiary.addMeeting("25/02/2018", "12:00", "13:00", "Meeting", 2);
-		myTree.findTreeNode("BOB").myDiary.addMeeting("20/02/2018", "12:00", "13:00", "Meeting", 2);
-		myTree.findTreeNode("BOB").myDiary.addMeeting("21/02/2018", "12:00", "13:00", "Meeting", 2);
-		myTree.findTreeNode("BOB").myDiary.addMeeting("20/02/2018", "12:00", "13:00", "Meeting", 2);
-		myTree.addNewTreeNode("SAD");
-		myTree.addNewTreeNode("DAD");
-		myTree.addNewTreeNode("BAD");
-		myTree.addNewTreeNode("MAD");
-		myTree.addNewTreeNode("RAD");
-		myTree.addNewTreeNode("CAD");
-		myTree.addNewTreeNode("LAD");
-		myTree.addNewTreeNode("HAD");
+		myTree.addNewTreeNode("John");
+		myTree.findTreeNode("John").myDiary.addEvent("22/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("John").myDiary.addEvent("22/02/2018", "15:00", "15:30", "Meeting", 2);
+		myTree.findTreeNode("John").myDiary.addEvent("23/02/2018", "13:00", "14:00", "Meeting", 2);
+		myTree.findTreeNode("John").myDiary.addEvent("24/02/2018",  "9:00", "10:00", "Meeting", 2);
+		myTree.findTreeNode("John").myDiary.addEvent("25/02/2018", "11:00", "12:00", "Meeting", 2); 
+		
+		myTree.addNewTreeNode("Chris");
+		myTree.findTreeNode("Chris").myDiary.addEvent("22/02/2018", "10:00", "11:00", "Meeting", 2);
+		myTree.findTreeNode("Chris").myDiary.addEvent("22/02/2018", "16:00", "16:30", "Meeting", 2);
+		myTree.findTreeNode("Chris").myDiary.addEvent("23/02/2018", "10:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Chris").myDiary.addEvent("24/02/2018", "17:00", "18:00", "Meeting", 2);
+		myTree.findTreeNode("Chris").myDiary.addEvent("25/02/2018", "10:00", "11:00", "Meeting", 2); 
+		
+		myTree.addNewTreeNode("Jane");
+		myTree.findTreeNode("Jane").myDiary.addEvent("22/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Jane").myDiary.addEvent("23/02/2018", "13:00", "13:30", "Meeting", 2);
+		myTree.findTreeNode("Jane").myDiary.addEvent("24/02/2018", "13:00", "13:30", "Meeting", 2);
+		myTree.findTreeNode("Jane").myDiary.addEvent("24/02/2018", "16:00", "17:00", "Meeting", 2);
+		myTree.findTreeNode("Jane").myDiary.addEvent("25/02/2018", "13:00", "14:00", "Meeting", 2); 
+		
+		myTree.addNewTreeNode("Emma");
+		myTree.findTreeNode("Emma").myDiary.addEvent("22/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Emma").myDiary.addEvent("22/02/2018", "16:00", "16:45", "Meeting", 2);
+		myTree.findTreeNode("Emma").myDiary.addEvent("23/02/2018", "18:00", "16:00", "Meeting", 2);
+		myTree.findTreeNode("Emma").myDiary.addEvent("25/02/2018", "14:00", "16:00", "Meeting", 2);
+		myTree.findTreeNode("Emma").myDiary.addEvent("25/02/2018", "8:00", "8:30", "Meeting", 2);
+		
+		myTree.addNewTreeNode("Cassie");
+		myTree.findTreeNode("Cassie").myDiary.addEvent("22/02/2018", "8:00", "9:00", "Meeting", 2);
+		myTree.findTreeNode("Cassie").myDiary.addEvent("23/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Cassie").myDiary.addEvent("24/02/2018", "9:00", "9:30", "Meeting", 2);
+		myTree.findTreeNode("Cassie").myDiary.addEvent("24/02/2018", "11:00", "12:00", "Meeting", 2);
+		myTree.findTreeNode("Cassie").myDiary.addEvent("25/02/2018", "11:00", "11:30", "Meeting", 2); 
+		
+		myTree.addNewTreeNode("Ellen");
+		myTree.findTreeNode("Ellen").myDiary.addEvent("22/02/2018", "9:00", "9:30", "Meeting", 2);
+		myTree.findTreeNode("Ellen").myDiary.addEvent("23/02/2018", "9:00", "9:30", "Meeting", 2);
+		myTree.findTreeNode("Ellen").myDiary.addEvent("24/02/2018", "10:00", "10:45", "Meeting", 2);
+		myTree.findTreeNode("Ellen").myDiary.addEvent("25/02/2018", "12:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Ellen").myDiary.addEvent("25/02/2018", "14:00", "15:00", "Meeting", 2); 
+		
+		myTree.addNewTreeNode("Tyler");
+		myTree.findTreeNode("Tyler").myDiary.addEvent("22/02/2018", "15:00", "13:45", "Meeting", 2);
+		myTree.findTreeNode("Tyler").myDiary.addEvent("22/02/2018", "17:00", "18:00", "Meeting", 2);
+		myTree.findTreeNode("Tyler").myDiary.addEvent("24/02/2018", "11:00", "13:00", "Meeting", 2);
+		myTree.findTreeNode("Tyler").myDiary.addEvent("24/02/2018", "14:00", "15:00", "Meeting", 2);
+		myTree.findTreeNode("Tyler").myDiary.addEvent("25/02/2018", "16:00", "17:00", "Meeting", 2); 
+		
 		
 	}
 	
