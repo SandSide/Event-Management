@@ -345,11 +345,11 @@ public class Diary {
 	
 	/**
 	 * Method which adds a meeting to linked list.
-	 * @param day
-	 * @param start
-	 * @param end
-	 * @param description
-	 * @param cap
+	 * @param day which user will choose.
+	 * @param start time which the user will chooose from select options.
+	 * @param end time which user will choose from options.
+	 * @param description that will outline the meeting
+	 * @param cap that is the capacity of the meeting.
 	 */
 	public void addMeeting(String day, String start, String end, String description, int cap) 
 	{
@@ -723,8 +723,8 @@ public class Diary {
 			
 	}
 	/**
-	 * @param day
-	 * @param time
+	 * @param day which is used to find the date to delete.
+	 * @param time which is used to find the date to delete.
 	 */
 	public void deleteMeeting(String day, String time)
 	{
@@ -1306,7 +1306,7 @@ public class Diary {
 	
 	/**
 	 * Method which allows user to edit start time.
-	 * @param node
+	 * @param node which is used to edit start time.
 	 */
 	public void editStartTime(Meeting node)
 	{
@@ -1429,7 +1429,7 @@ public class Diary {
 	
 	/**
 	 * Method which allows user to edit end time.
-	 * @param node
+	 * @param node which is used to edit end time.
 	 */
 	public void editEndTime(Meeting node)
 	{
@@ -1549,7 +1549,7 @@ public class Diary {
 	
 	/**
 	 * Method which allows user to edit the description.
-	 * @param node
+	 * @param node which is used to edit the description.
 	 */
 	public void editDesc(Meeting node) 
 	{
@@ -1570,7 +1570,7 @@ public class Diary {
 	
 	/**
 	 * Method which allows user to edit capacity.
-	 * @param node
+	 * @param node which is used to edit the capacity.
 	 */
 	public void editCap(Meeting node) 
 	{
