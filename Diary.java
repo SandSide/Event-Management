@@ -1,59 +1,73 @@
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-
+import java.util.Set;
+import java.util.Stack;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 
-
+/**
+ * AC12001 Group Assignment.
+ * 
+ * @author Patryk Jakubek
+ * Class to store meeting details.
+ * Allows one to set/get the fields.
+ *	   
+ * @version v1.0
+ */
 public class Diary {
 
 	
-	public LinkedList<Event> myEvents;
-	public LinkedList<Event> myEventsCopy;
+	public LinkedList<Meeting> myMeetings;
+	private Stack<LinkedList<Meeting>> diaryStack;
 	
 	
 	public Diary() 
 	{
 		
-		myEvents = new LinkedList<Event>();
-		myEventsCopy = null;
+		myMeetings = new LinkedList<Meeting>();
+		diaryStack = new Stack<LinkedList<Meeting>>();
 		
 	}
 	
-	public LinkedList<Event> getMyEvents() 
+	public LinkedList<Meeting> getMyMeetings() 
 	{
 		
-		return myEvents;
+		return myMeetings;
 		
 	}
 
 
 
 
-	public void setMyEvents(LinkedList<Event> myEvents) {
-		this.myEvents = myEvents;
+	public void setMyMeetings(LinkedList<Meeting> myMeetings) {
+		this.myMeetings = myMeetings;
+	}
+
+
+/*
+	public Stack<LinkedList<Meeting>> getMyMeetingCopy() {
+		return myMeetingsCopy;
 	}
 
 
 
-	public LinkedList<Event> getMyEventsCopy() {
-		return myEventsCopy;
+
+	public void setMyMeetingCopy(Stack<LinkedList<Meeting>> myMeetingsCopy)
+	{
+		
+		this.myMeetingsCopy = myMeetingsCopy;
+		
 	}
-
-
-
-
-	public void setMyEventsCopy(LinkedList<Event> myEventsCopy) {
-		this.myEventsCopy = myEventsCopy;
-	}
-
-	public void addToEvent() 
+*/
+	public void addToMeeting() 
 	{
 		
 		String date;
@@ -68,6 +82,8 @@ public class Diary {
 		String endTime;
 		String duration;
 				
+		int recurance;
+		
 		int num;
 		int capacity;
 		String desc;
@@ -77,6 +93,24 @@ public class Diary {
 		Date datte = new Date();
 		
 		Scanner S10 = new Scanner(System.in);
+		
+		System.out.println();
+		System.out.print("Please enter the amount of weeks the meeting should be added to: ");
+		
+		recurance = S10.nextInt();
+		
+		while(recurance<1) 
+		{
+			
+			System.out.println();
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter the amount of weeks the meeting should be added to: ");
+			
+			recurance = S10.nextInt();
+			
+		}
+		
+		S10 = new Scanner(System.in);
 		
 		System.out.println();
 		System.out.print("Please enter the day of the meeting: ");
@@ -150,14 +184,14 @@ public class Diary {
 		
 		
 		System.out.println();
-		System.out.println("Possible times are from 8am till 6pm.");
+		System.out.println("Possible times are from 8am till 5pm.");
 		System.out.print("Please enter the Meeting Start Time Hour: " );
 	
 		startTimeHour = S10.nextLine();
 		
 		num = Integer.parseInt(startTimeHour);
 		
-		while(num <8 || num > 18) 
+		while(num <8 || num > 17) 
 		{
 			
 			System.out.println();
@@ -266,11 +300,40 @@ public class Diary {
 		if(findMeeting(date, startTime) == null)
 		{
 		
-			this.addEvent(date, startTime, endTime, desc, capacity);
+			this.addMeeting(date, startTime, endTime, desc, capacity);
 			
 		}
 		else
 		{
+			
+			System.out.println();
+			System.out.print("Could not add as the meeting already exits.");
+			
+		}
+		
+		if(recurance>1) 
+		{
+			for(int i = 1; i < recurance; i++) 
+			{
+				
+				day = String.valueOf((Integer.parseInt(day) + 7));
+				date = day + "/" + month + "/" + year;
+				
+				if(findMeeting(date, startTime) == null)
+				{
+				
+					this.addMeeting(date, startTime, endTime, desc, capacity);
+					
+				}
+				else
+				{
+					
+					System.out.println();
+					System.out.print("Could not add as the meeting already exits.");
+					
+				}
+				
+			}
 			
 		}
 		
@@ -278,7 +341,7 @@ public class Diary {
 
 	
 	
-	public void addEvent(String day, String start, String end, String description, int cap) 
+	public void addMeeting(String day, String start, String end, String description, int cap) 
 	{
 			
 		String startDate = day;
@@ -290,91 +353,54 @@ public class Diary {
 		String formatedDate;
 		String checkTime = startTime;
 		
-		int num1;
-		int num2;
-		int num3;
-		int num4;
-		int num5;
-		int num6 = 0;
+		boolean valid = true;
 		
-		boolean valid = false;
-		
-		Event E = new Event();
-		Event N;
-		Date date = null;
+		Meeting E = new Meeting();
+		Meeting N;
+		Meeting checkEvent;
+		Meeting formatTime =  new Meeting();
 		
 		String pattern = "dd/MM/yyyy kk:mm";
 		
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
 		
-		
-		String[] parts = startTime.split(":");
-		num1 = Integer.parseInt(parts[1]);
-		
-		parts = endTime.split(":");
-		num2 = Integer.parseInt(parts[1]);
-		
-		num3 = num2 - num1;
-		num4 = 0;
-		
-		switch (num3) 
-		{
-		
-			case -45:
-				num4 = 1;
-				break;
-			
-			case -30:
-				num4 = 2;
-				break;
-				
-			case -15:
-				num4 = 3;
-				break;
-				
-			case 0:
-				num4 = 4;
-				break;
-				
-			case 15:
-				num4 = 1;
-				break;
-				
-			case 30:
-				num4 = 2;
-				break;
-				
-			case 45:
-				num4 = 3;
-				break;
-						
-		}
-		
-		
-		String [] partss = checkTime.split(":");
-		num5 = Integer.parseInt(partss[1]);
-		
-		for(int i = 1; i<= num4; i++) 
+		while(checkTime.compareTo(endTime) < 0) 
 		{
 			
-			num5 = 15 + num5;
-			checkTime = partss[0] + ":" + String.valueOf(num5);
-	
-			N = this.findMeeting(day, checkTime);
+			format = new SimpleDateFormat("kk:mm");
 			
-			if(N == null) 
+			checkEvent = findMeeting(startDate, checkTime);
+			
+			String[] parts = checkTime.split(":");
+			checkTime = parts[0] + ":" + Integer.toString(Integer.parseInt(parts[1]) + 15);
+			
+			 try 
+			 {
+			    formatedDate = (checkTime);
+			    formatTime.setStartDate(format.parse(formatedDate));
+			    checkTime = format.format(formatTime.getStartDate());
+			    	
+			 } 
+			    
+			 catch (ParseException e) 
+			 {
+			    	
+			    e.printStackTrace();
+			      
+			 }
+			
+			if (checkEvent != null) 
 			{
+				valid = false;
 				
-				num6++;
-					
 			}
-
+			
 		}
-		
 		
 		N = findMeeting(startDate, startTime);
+		format = new SimpleDateFormat(pattern);
 		
-		if(N == null && num6 == num4)
+		if(N == null && valid == true)
 		{
 		
 		    try 
@@ -386,7 +412,7 @@ public class Diary {
 		    	formatedDate = (startDate + " " + endTime);
 		    	E.setEndDate(format.parse(formatedDate));
 		    	
-		    	E.setDesciption(desc);
+		    	E.setDescription(desc);
 		    	E.setCapacity(capacity);
 		    	
 		    	Date sd = E.getStartDate();
@@ -400,8 +426,8 @@ public class Diary {
 		      
 		    }
 	    
-	    	myEvents.add(E);
-	    	System.out.println("The Event was added.");
+	    	myMeetings.add(E);
+	    	System.out.println("The Meeting was added.");
 	    	System.out.println();
 	    	
 		}
@@ -416,11 +442,11 @@ public class Diary {
 		}
 		
 		
-		Collections.sort(myEvents, new Comparator<Event>() 
+		Collections.sort(myMeetings, new Comparator<Meeting>() 
 		{
 			
 		    @Override
-		    public int compare(Event o1, Event o2) 
+		    public int compare(Meeting o1, Meeting o2) 
 		    {
 		    	
 		        return o1.getStartDate().compareTo(o2.getEndDate());
@@ -437,11 +463,11 @@ public class Diary {
 			
 		String currentDate;
 		boolean found = false;
-		Event N = null;
+		Meeting N = null;
 		
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		
-		Iterator<Event> Iterator = myEvents.iterator();
+		Iterator<Meeting> Iterator = myMeetings.iterator();
 		
         while (Iterator.hasNext()) 
         {
@@ -453,7 +479,7 @@ public class Diary {
         	format = new SimpleDateFormat("kk:mm");
         	System.out.println("Start Time: " + "\t" + format.format(N.getStartDate()));
         	System.out.println("End Time: " + "\t" +format.format(N.getEndDate()));
-        	System.out.println("Description: " + "\t" + N.getDesciption());
+        	System.out.println("Description: " + "\t" + N.getDescription());
         	System.out.println("Capacity: " + "\t" + N.getCapacity());
         	System.out.println();
 
@@ -484,9 +510,28 @@ public class Diary {
 		
 		Scanner S2 = new Scanner(System.in); // Utilising scanner to get user input.
 		
+		System.out.println("Selected Delete."); // Outputs message telling user that this is the search function to delete.
 		
-		System.out.println("Search Function to Delete Meeting:"); // Outputs message telling user that this is the search function to delete
-		System.out.print("Please enter the day of the event: "); // Prompts user to enter day of meeting they want to search and delete
+		System.out.println();
+		System.out.print("Please enter the amount of weeks you want to delete the meeting from: ");
+		
+		int recurance = S2.nextInt();
+		
+		while(recurance<1) 
+		{
+			
+			System.out.println();
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter the amount of weeks you want to delete the meeting from: ");
+			
+			recurance = S2.nextInt();
+			
+		}
+		
+		
+		S2 = new Scanner(System.in);
+		
+		System.out.print("Please enter the day of the meeting: "); // Prompts user to enter day of meeting they want to search and delete
 		
 		day = S2.nextLine();
 		
@@ -497,7 +542,7 @@ public class Diary {
 			
 			System.out.println();
 			System.out.println("Invalid Input.");  // Error message output.
-			System.out.print("Please enter the day of the event: ");  //Allows user to enter again.
+			System.out.print("Please enter the day of the meeting: ");  //Allows user to enter again.
 			
 			day = S2.nextLine();
 			
@@ -506,7 +551,7 @@ public class Diary {
 			
 		
 		System.out.println(); 
-		System.out.print("Please enter the month of the event: "); //Prompts user to enter the month of meeting
+		System.out.print("Please enter the month of the meeting: "); //Prompts user to enter the month of meeting
 		
 		month = S2.nextLine();
 		
@@ -517,7 +562,7 @@ public class Diary {
 			
 			System.out.println();
 			System.out.println("Invalid Input.");
-			System.out.print("Please enter the month of the event: ");
+			System.out.print("Please enter the month of the meeting: ");
 			
 			month = S2.nextLine();
 			
@@ -526,7 +571,7 @@ public class Diary {
 		
 		
 		System.out.println();
-		System.out.print("Please enter the year of the event: ");
+		System.out.print("Please enter the year of the meeting: ");
 		
 		year = S2.nextLine();
 		
@@ -544,7 +589,7 @@ public class Diary {
 		    System.out.println();
 			System.out.println("Invalid Input.");
 			System.out.println("The year already passed.");
-			System.out.print("Please enter the year of the event: ");
+			System.out.print("Please enter the year of the meeting: ");
 					
 			year = S2.nextLine();
 			num = Integer.parseInt(year);
@@ -557,7 +602,7 @@ public class Diary {
 		
 		System.out.println();
 		System.out.println("Possible times are from 8am till 6pm.");
-		System.out.print("Please enter the Meeting Start Time Hour: " );
+		System.out.print("Please enter the meeting start time hour: " );
 	
 		startTimeHour = S2.nextLine();
 		
@@ -568,7 +613,7 @@ public class Diary {
 			
 			System.out.println();
 			System.out.println("Invalid Input.");
-			System.out.print("Please enter new start time hour: ");
+			System.out.print("Please enter meeting start time hour: ");
 			
 			startTimeHour = S2.nextLine();
 			num = Integer.parseInt(startTimeHour);
@@ -616,12 +661,12 @@ public class Diary {
 		
 		startTime = startTimeHour + ":" + startTimeMinute;
 		
-		Event N = this.findMeeting(date, startTime);
+		Meeting N = this.findMeeting(date, startTime);
 		
 		
 		if (N == null)
 		{
-			
+			System.out.println();
 			System.out.println("\nSorry, could not find meeting.");
 			
 		}
@@ -629,29 +674,52 @@ public class Diary {
 		{
 			
 			//myEvents.remove();
-			myEvents.remove(N);
-			System.out.println("\nEvent deleted successfully.");
-			System.out.println("Event deleted " + date + " at " + startTime);
+			myMeetings.remove(N);
+			System.out.println("\nMeeting deleted successfully.");
+			System.out.println("Meeting deleted: " + date + " at " + startTime);
 
+		}
+		
+		if(recurance>1) 
+		{
+			for(int i = 1; i < recurance; i++) 
+			{
+				
+				day = String.valueOf((Integer.parseInt(day) + 7));
+				date = day + "/" + month + "/" + year;
+				
+				N = this.findMeeting(date, startTime);
+				if(N != null)
+				{
+				
+					myMeetings.remove(N);
+					System.out.println("Meeting deleted: " + date + " at " + startTime);
+					
+				}
+				
+			}
+			
+			System.out.println();
+			System.out.println("Finished Deleting: " + recurance + " weeks.");
+			
 		}
 			
 	}
 	
-	public void deleteEvent(String day, String time)
+	public void deleteMeeting(String day, String time)
 	{
 
 			System.out.println();
 		
-			
 			String pattern = "dd/MM/yyyy kk:mm";
 			SimpleDateFormat format = new SimpleDateFormat(pattern);
 			
 			String findDate = day + " " + time;
 			String currentDate;
 			boolean found = false;
-			Event N = null;
+			Meeting N = null;
 
-			Iterator<Event> Iterator = myEvents.iterator();
+			Iterator<Meeting> Iterator = myMeetings.iterator();
 			
 	        while (Iterator.hasNext() && found == false) 
 	        {
@@ -664,23 +732,22 @@ public class Diary {
 	        	{
 	        		
 	        		found = true;
-	        		
-	        		
+	
 	        	}
 
 	        }
 	        
 	        if (found == true) 
 	        {
-	        	System.out.println("Found event");
-	        	System.out.println("The event" + N + " has been successfully deleted");
-	        	myEvents.remove(N);
+	        	System.out.println("Found meeting");
+	        	System.out.println("The meeting" + N + " has been successfully deleted.");
+	        	myMeetings.remove(N);
 	        	
 	        }		
 	        
 	        else
 	        {
-	        	System.out.println("Error, could not find event");
+	        	System.out.println("Error, could not find meeting.");
 	        	
 	        	
 	        }
@@ -688,7 +755,7 @@ public class Diary {
 		
 	}
 
-	public Event findMeeting(String day, String time) 
+	public Meeting findMeeting(String day, String time) 
 	{
 		
 		String pattern = "dd/MM/yyyy kk:mm";
@@ -697,9 +764,9 @@ public class Diary {
 		String findDate = day + " " + time;
 		String currentDate;
 		boolean found = false;
-		Event N = null;
+		Meeting N = null;
 
-		Event E = new Event();
+		Meeting E = new Meeting();
 		
 		try 
 	    {
@@ -721,7 +788,7 @@ public class Diary {
 		format = new SimpleDateFormat(pattern);
 		
 		findDate = day + " " + time;
-		Iterator<Event> Iterator = myEvents.iterator();
+		Iterator<Meeting> Iterator = myMeetings.iterator();
 		
         while (Iterator.hasNext() && found == false) 
         {
@@ -759,7 +826,7 @@ public class Diary {
 	}
 	
 	
-	public Event searchMeeting() 
+	public Meeting searchMeeting() 
 	{
 		
 		String date;
@@ -920,6 +987,7 @@ public class Diary {
 		}
 		else
 		{
+			
 			System.out.println();
 			System.out.println("Editing: " + date + " " + startTime);
 			
@@ -964,11 +1032,12 @@ public class Diary {
 	
 	}
 	
-	public void editEvent(Event node) 
+	public void editMeeting(Meeting node) 
 	{
 		
 		if(node != null) 
 		{
+			Scanner s1 = new Scanner(System.in);
 			
 			//Initialises variables
 			int choice = 0;
@@ -980,9 +1049,6 @@ public class Diary {
 					
 					//Calls displayMenu method.
 					this.displayMenu();
-				
-					//Creates an instance of a scanner, which records next int value entered.
-					Scanner s1 = new Scanner(System.in);
 					
 					choice = s1.nextInt();
 				
@@ -1031,7 +1097,7 @@ public class Diary {
 							this.editEndTime(node);
 							lineBreak();
 							break;
-							
+						
 						//If choice = 0 then displays exit message.
 						//Calls lineBreak method.
 						case 0:
@@ -1048,6 +1114,8 @@ public class Diary {
 					}
 						
 					System.out.println();
+					this.pushDiaryToStack();
+					System.out.println(choice);
 						
 				} 
 				
@@ -1075,7 +1143,7 @@ public class Diary {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void editDate(Event node) 
+	public void editDate(Meeting node) 
 	{
 		
 		String newDate;
@@ -1093,7 +1161,7 @@ public class Diary {
 		Scanner S3 = new Scanner(System.in);
 		
 		System.out.println();
-		System.out.print("Please enter the day of the event: ");
+		System.out.print("Please enter the day of the meeting: ");
 		
 		day = S3.nextLine();
 		
@@ -1103,7 +1171,7 @@ public class Diary {
 		{
 			
 			System.out.println("Invalid Input.");
-			System.out.print("Please enter the day of the event: ");
+			System.out.print("Please enter the day of the meeting: ");
 			
 			day = S3.nextLine();
 			
@@ -1112,7 +1180,7 @@ public class Diary {
 			
 		
 		System.out.println();
-		System.out.print("Please enter the new month of the event: ");
+		System.out.print("Please enter the new month of the meeting: ");
 		
 		month = S3.nextLine();
 		
@@ -1122,7 +1190,7 @@ public class Diary {
 		{
 			
 			System.out.println("Invalid Input.");
-			System.out.print("Please enter the new month of the event: ");
+			System.out.print("Please enter the new month of the meeting: ");
 			
 			month = S3.nextLine();
 			
@@ -1131,7 +1199,7 @@ public class Diary {
 		
 		
 		System.out.println();
-		System.out.print("Please enter the new year of the event: ");
+		System.out.print("Please enter the new year of the meeting: ");
 		
 		year = S3.nextLine();
 		
@@ -1149,7 +1217,7 @@ public class Diary {
 		    		
 		    System.out.println();
 			System.out.println("Invalid Input. The year already passed.");
-			System.out.print("Please enter the year of the event: ");
+			System.out.print("Please enter the year of the meeting: ");
 					
 			year = S3.nextLine();
 			num = Integer.parseInt(year);
@@ -1176,8 +1244,6 @@ public class Diary {
 	    	format = new SimpleDateFormat(pattern);
 	    	
 	    	formatedDate = (day + "/" + month + "/" + year + " " + startTime);
-	    	
-	    	//System.out.println(formatedDate.compareTo(format.format(node.getEndDate())));
 	    	
 	    	Date currentDate = new Date();
 	    	
@@ -1216,7 +1282,7 @@ public class Diary {
 	}
 	
 	
-	public void editStartTime(Event node)
+	public void editStartTime(Meeting node)
 	{
 		
 		String Date;
@@ -1233,14 +1299,14 @@ public class Diary {
 		Scanner S4 = new Scanner(System.in);
 		
 		System.out.println();
-		System.out.println("Possible times are from 8am till 6pm.");
+		System.out.println("Possible times are from 8am till 5pm.");
 		System.out.print("Please enter start time hour: ");
 		
 		startTimeHour = S4.nextLine();
 		
 		num = Integer.parseInt(startTimeHour);
 		
-		while(num <8 || num > 18) 
+		while(num <8 || num > 17) 
 		{
 			
 			System.out.println("Invalid Input. Possible times are from 8am till 6pm.");
@@ -1336,7 +1402,7 @@ public class Diary {
 	}
 	
 	
-	public void editEndTime(Event node)
+	public void editEndTime(Meeting node)
 	{
 		
 		String Date;
@@ -1453,7 +1519,7 @@ public class Diary {
 	}
 	
 	
-	public void editDesc(Event node) 
+	public void editDesc(Meeting node) 
 	{
 		
 		Scanner S6 = new Scanner(System.in);
@@ -1463,15 +1529,15 @@ public class Diary {
 		
 		String newDesc = S6.nextLine();
 		
-		node.setDesciption(newDesc);
+		node.setDescription(newDesc);
 		
 		System.out.println();
-		System.out.println("Change descipriton to: " + node.getDesciption());
+		System.out.println("Changed description to: " + node.getDescription());
 		
 	}
 	
 	
-	public void editCap(Event node) 
+	public void editCap(Meeting node) 
 	{
 		
 		Scanner S7 = new Scanner(System.in);
@@ -1498,5 +1564,453 @@ public class Diary {
 		System.out.println("Change capacity to: " + node.getCapacity());
 		
 	}
+	
+	@SuppressWarnings("deprecation")
+	public void searchEmptyTimes(Diary node) 
+	{
+		
+		Scanner S45 = new Scanner(System.in);
+		
+		String date;
+		String minTime;
+		String maxTime;
+		String minTimeCopy;
+		String maxTimeCopy;
+		
+		String startTimeHour;
+		String startTimeMinute;
+		String endTime;
+		
+		String endTimeHour;
+		String endTimeMinute;
+		
+		String choiceTime;
+		String choiceTimeEnd;
+			
+		int currentCol;
+		int num;
+
+		Date currentDate = new Date();
+		Diary currentDiary;
+		Date timeSearchStarted = new Date();
+		
+		Meeting copy = new Meeting();
+		Meeting currentEvent = new Meeting();
+		
+		boolean valid = true;
+		
+		int Todayyear = currentDate.getYear();
+		int Todayday = currentDate.getDate();
+		int Todaymonth = currentDate.getMonth() + 1;
+		
+		String day;
+		String month;
+		String year;
+		
+		Todayyear = Todayyear + 1900;
+		date = Todayday + "/" + Todaymonth + "/" + Todayyear;
+			
+		S45 = new Scanner(System.in);
+		
+		System.out.println();
+		System.out.print("Please enter the day of the event: ");
+		
+		day = S45.nextLine();
+		
+		num = Integer.parseInt(day);
+		
+		while(num<1 || num>31) 
+		{
+			
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter the day of the event: ");
+			
+			day = S45.nextLine();
+			
+			num = Integer.parseInt(day);
+		}
+			
+		
+		System.out.println();
+		System.out.print("Please enter the month of the event: ");
+		
+		month = S45.nextLine();
+		
+		num = Integer.parseInt(month);
+		
+		while(num<1 || num>12) 
+		{
+			
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter the month of the event: ");
+			
+			month = S45.nextLine();
+			
+			num = Integer.parseInt(month);
+		}
+		
+		
+		System.out.println();
+		System.out.print("Please enter the year of the event: ");
+		
+		year = S45.nextLine();
+		
+		num = Integer.parseInt(year);
+		
+		Date datte = new Date();
+		  		
+		int nowYear = datte.getYear();
+		nowYear = nowYear + 1900;
+		    	
+		while(num < nowYear) 
+		{
+		    		
+		    System.out.println();
+			System.out.println("Invalid Input. The year already passed.");
+			System.out.print("Please enter the year of the event: ");
+					
+			year = S45.nextLine();
+			num = Integer.parseInt(year);
+					
+		}
+		
+		date = day + "/" + month + "/" + year;
+		
+		S45 = new Scanner(System.in);
+		
+		System.out.println();
+		System.out.println("Entering Minimum Time.");
+		System.out.println("Possible times are from 8am till 5pm.");
+		System.out.print("Please enter start time hour: ");
+		
+		startTimeHour = S45.nextLine();
+		
+		num = Integer.parseInt(startTimeHour);
+		
+		while(num <8 || num > 17) 
+		{
+			
+			System.out.println("Invalid Input. Possible times are from 8am till 5pm.");
+			System.out.print("Please enter start time hour: ");
+			
+			startTimeHour = S45.nextLine();
+			num = Integer.parseInt(startTimeHour);
+			
+			System.out.println();
+			
+		}
+		
+		S45 = new Scanner(System.in);
+		
+		System.out.println();
+		System.out.println("Possible minutes are 0, 15, 30, 45 & 60 minutes.");
+		System.out.print("Please enter start time minute: ");
+		
+		startTimeMinute = S45.nextLine();
+		
+		num = Integer.parseInt(startTimeMinute);
+		
+		if(num == 0 || num == 15 || num == 30 || num == 45 || num ==60) 
+		{
+			
+			valid = true;
+			
+		}
+
+		while(valid == false) 
+		{
+			
+			System.out.println();
+			System.out.println("Invalid Input.");
+			System.out.println("Possible minutes are 0, 15, 30, 45 & 60 minutes.");
+			System.out.print("Please enter start time minute: ");
+			
+			startTimeMinute = S45.nextLine();
+			num = Integer.parseInt(startTimeMinute);
+			
+			if(num == 0 ||num == 15 || num == 30 || num == 45 || num == 60) 
+			{
+				
+				valid = true;
+				
+			}
+			
+			System.out.println();
+			
+		}
+		
+		System.out.println();
+		System.out.println("Enetering Maxiumum Time.");
+		System.out.println("Possible times are from 8am till 5pm.");
+		System.out.print("Please enter end time hour: ");
+		
+		endTimeHour = S45.nextLine();
+		
+		num = Integer.parseInt(endTimeHour);
+		
+		while(num <8 || num > 17) 
+		{
+			
+			System.out.println("Invalid Input. Possible times are from 8am till 5pm.");
+			System.out.print("Please enter end time hour: ");
+			
+			endTimeHour = S45.nextLine();
+			num = Integer.parseInt(endTimeHour);
+			
+			System.out.println();
+			
+		}
+		
+		S45 = new Scanner(System.in);
+		
+		System.out.println();
+		System.out.println("Possible minutes are 0, 15, 30, 45 & 60 minutes.");
+		System.out.print("Please enter end time minute: ");
+		
+		endTimeMinute = S45.nextLine();
+		
+		num = Integer.parseInt(endTimeMinute);
+		
+		if(num == 0 || num == 15 || num == 30 || num == 45 || num ==60) 
+		{
+			
+			valid = true;
+			
+		}
+
+		while(valid == false) 
+		{
+			
+			System.out.println();
+			System.out.println("Invalid Input.");
+			System.out.println("Possible minutes are 0, 15, 30, 45 & 60 minutes.");
+			System.out.print("Please enter end time minute: ");
+			
+			endTimeMinute = S45.nextLine();
+			num = Integer.parseInt(endTimeMinute);
+			
+			if(num == 0 ||num == 15 || num == 30 || num == 45 || num == 60) 
+			{
+				
+				valid = true;
+				
+			}
+			
+			System.out.println();
+			
+		}
+		
+		endTime = endTimeHour + ":" + endTimeMinute;
+		String startTime = startTimeHour + ":" + startTimeMinute;
+		
+
+		minTime = startTime;
+		maxTime = endTime;
+		minTimeCopy = minTime;
+		maxTimeCopy = maxTime;
+		
+	
+		String pattern = "kk:mm";
+		SimpleDateFormat format = new SimpleDateFormat(pattern);
+	
+		try 
+		{   	
+			 format = new SimpleDateFormat("dd/MM/yyyy");
+			 
+			 copy.setStartDate(format.parse(date));
+			 date = format.format(copy.getStartDate());
+			 
+		    	
+		} 
+		    
+		catch (ParseException e) 
+		{
+		    	
+		     e.printStackTrace();
+		      
+		}
+		
+		
+		String[]newArray = new String[280];
+		
+		minTimeCopy = minTime;
+		maxTimeCopy = maxTime;
+	
+		currentCol = 0;
+				
+		currentDiary = node;
+				
+		while(minTimeCopy.equals(maxTimeCopy) != true) 
+		{
+					
+			currentEvent = currentDiary.findMeeting(date, minTimeCopy);
+					
+			if(currentEvent == null) 
+			{
+						
+				newArray[currentCol] = minTimeCopy;
+				currentCol++;
+						
+			}
+				
+					
+			String[] startparts = minTimeCopy.split(":");
+					
+			num = (Integer.parseInt(startparts[1])) + 15;
+					
+			minTimeCopy = startparts[0] + ":" + num;
+							
+			try 
+			{   	
+				format = new SimpleDateFormat("kk:mm");
+						 
+				copy.setStartDate(format.parse(minTimeCopy));
+				minTimeCopy = format.format(copy.getStartDate());
+						 
+				format = new SimpleDateFormat("dd/MM/yyyy");
+						 
+				copy.setStartDate(format.parse(date));
+				date = format.format(copy.getStartDate());
+					    	
+			} 
+					    
+			catch (ParseException e) 
+			{
+					    	
+				 e.printStackTrace();
+					      
+			}
+					
+		}
+	
+		Set<String> setA = new HashSet<String>(); 
+		
+		if(valid == true) 
+		{
+			
+			for(int k = 0; k<280; k++) 
+			{
+				
+				if(newArray[k] != null) 
+				{
+					
+					setA.add(newArray[k]);
+					
+				}
+				
+			}
+					
+		}
+			
+		List<String> sortedList = new ArrayList(setA);
+		Collections.sort(sortedList);
+			
+		Date time_now = new Date();
+			
+		System.out.println("The avaible times are: ");
+		System.out.print(sortedList);
+		
+		System.out.println();
+		System.out.println("Please enter time you want (hh:mm): ");
+		choiceTime = S45.next();
+		
+		boolean checkChoiceTime = false;
+		
+		for(int l = 0; l <sortedList.size(); l++) 
+		{
+			
+			Iterator<String> Iterator = sortedList.iterator();
+			
+			 while (Iterator.hasNext()) 
+		     {
+		        	
+				 if(choiceTime.equals(Iterator.next()))
+				 {
+					 
+					 
+					 checkChoiceTime = true;
+						 			 
+				 }
+		     }	
+		}
+		
+		while (checkChoiceTime == false) 
+		{
+			
+			System.out.println("The entered time does not match available times.");
+			System.out.println("Please enter time you want (hh:mm): ");
+			choiceTime = S45.next();
+			
+			for(int l = 0; l <sortedList.size(); l++) 
+			{
+				
+				Iterator<String> Iterator = sortedList.iterator();
+				
+				while (Iterator.hasNext()) 
+			    {
+			        	
+					if(choiceTime.equals(Iterator.next()))
+					{
+						 
+						 
+						checkChoiceTime = true;
+							 			 
+					}
+			    }	
+			}		
+		}
+		
+			
+		currentDiary = node;
+				
+		String[] startparts = choiceTime.split(":");
+				
+		num = (Integer.parseInt(startparts[1])) + 15;
+				
+		choiceTimeEnd = startparts[0] + ":" + num;
+				
+		try 
+		{   	
+			format = new SimpleDateFormat("kk:mm");
+					 
+			copy.setStartDate(format.parse(choiceTimeEnd));
+			choiceTimeEnd = format.format(copy.getStartDate());
+				    	
+		} 
+				    
+		catch (ParseException e) 
+		{
+				    	
+			e.printStackTrace();
+				      
+		}
+				
+		currentDiary.addMeeting(date, choiceTime, choiceTimeEnd, "Group Meeting", 2);
+				
+		long elapsed = time_now.getTime() - timeSearchStarted.getTime(); 
+		System.out.println("The search lasted for: " + elapsed + " milliseconds.");
+
+	}	
+	
+	
+	public void pushDiaryToStack()
+	{ 
+		
+		LinkedList<Meeting> diaryCopy = new LinkedList<Meeting>();
+		diaryCopy = (LinkedList) myMeetings.clone();
+	    //diaryCopy.addAll(myMeetings.clone());
+		diaryStack.push(diaryCopy);
+		
+	}
+	
+	public void undo()
+	{
+		
+		System.out.println();
+		System.out.println("Undoing last Action.");
+	    myMeetings = diaryStack.pop();
+	    
+	}
+	
 	
 }

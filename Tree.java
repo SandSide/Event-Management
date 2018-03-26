@@ -10,12 +10,21 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
-
+/**
+ * AC12001 Group Assignment.
+ * 
+ * @author Patryk Jakubek
+ * Class to store meeting details.
+ * Allows one to set/get the fields.
+ *	   
+ * @version v1.0
+ */
 public class Tree {
 
 	private TreeNode root;
@@ -202,7 +211,7 @@ public class Tree {
 				added = false;
 				
 				// Display message that it already exists.
-				System.out.println("The ID already exists.");
+				System.out.println("The Staff already exists.");
 				
 			}
 			
@@ -274,14 +283,14 @@ public class Tree {
 		{
 			
 			// Display that it was added.
-			System.out.println("The Tree was added.");
+			System.out.println("The Staff was added.");
 			
 		}
 		
 		else
 		{
 			// Display it was noted added.
-			System.out.println("The Tree could not be added.");
+			System.out.println("The Staff could not be added.");
 			
 		}
 		
@@ -329,7 +338,7 @@ public class Tree {
 		{
 			
 			// Display message to inform the user.
-			System.out.println("The Tree Node does not exist.");
+			System.out.println("The Staff does not exist.");
 			System.out.println();
 
 		}
@@ -396,6 +405,7 @@ public class Tree {
 					
 					// Set previous' Left TreeNode to null.
 					previous.setLeft(null);
+					deleted = true;
 					
 				}
 				
@@ -405,14 +415,35 @@ public class Tree {
 					
 					// Set previous' Right TreeNode to null.
 					previous.setRight(null);
+					deleted = true;
 						
+				}
+				
+				if(this.getRoot() == current) 
+				{
+					
+					this.setRoot(null);
+					deleted = true;
+					
 				}
 					
 			}
 			
 			
 			// Sets rl to boolean result of comparison of position to "Left".
-			rl = position.equals("Left");
+			rl = false;
+		
+			if (previous != null) 
+			{
+				
+				if(previous.getLeft() == current) 
+				{
+					
+					rl = true;
+					
+				}
+				
+			}
 			
 			
 			// If Current TreeNode has a Left Child.
@@ -426,14 +457,9 @@ public class Tree {
 				deleted = true;
 					
 			}
-			
-			
-			// Sets rl to boolean result of comparison of position to "Right".
-			rl = position.equals("Right");
-				
-			
+					
 			// If Current TreeNode has a Right Child.	
-			if(nextLeft == null && nextRight != null && rl == true) 
+			if(nextLeft == null && nextRight != null && rl == false) 
 			{
 				
 				// Set previous' Right Node to nextRight.
@@ -494,7 +520,7 @@ public class Tree {
 				// Sets deleted to true.
 				deleted = true;
 				
-			}			
+			}	
 			
 		}
 		
@@ -505,17 +531,17 @@ public class Tree {
 			
 			// Display a message stating it was deleted.
 			System.out.println();
-			System.out.println("The TreeNode was deleted.");
+			System.out.println("The Staff was deleted.");
 			
 		}
 		
 		// If ID does exist in the Tree and was not deleted.
-		else if(this.findTreeNode(name) != null)
+		else
 		{
 			
 			// Display a message stating it was not deleted.
 			System.out.println();
-			System.out.println("The TreeNode was not deleted.");
+			System.out.println("The Staff was not deleted.");
 			
 		}
 		
@@ -579,6 +605,15 @@ public class Tree {
 		String minTimeCopy;
 		String maxTimeCopy;
 		
+		String startTimeHour;
+		String startTimeMinute;
+		String endTime;
+		
+		String endTimeHour;
+		String endTimeMinute;
+		
+		int recurance;
+		
 		String choiceTime;
 		String choiceTimeEnd;
 			
@@ -588,35 +623,248 @@ public class Tree {
 		TreeNode found;
 		Date currentDate = new Date();
 		Diary currentDiary;
+		Date timeSearchStarted = new Date();
 		
-		Event copy = new Event();
-		Event currentEvent = new Event();
+		Meeting copy = new Meeting();
+		Meeting currentEvent = new Meeting();
 		
 		boolean valid = true;
 		
-		int year = currentDate.getYear();
-		int day = currentDate.getDate();
-		int month = currentDate.getMonth() + 1;
+		int Todayyear = currentDate.getYear();
+		int Todayday = currentDate.getDate();
+		int Todaymonth = currentDate.getMonth() + 1;
 		
-		year = year + 1900;
-		date = day + "/" + month + "/" + year;
+		String day;
+		String month;
+		String year;
 		
-		
+		Todayyear = Todayyear + 1900;
+		date = Todayday + "/" + Todaymonth + "/" + Todayyear;
+			
+		S8 = new Scanner(System.in);
+			
 		System.out.println();
 		System.out.println();
 		System.out.print("Please enter group of people seperated by , : ");
 		names = S8.next();
 		
 		String[] parts = names.split(",");
-			
-		System.out.println("Please enter minimum time (hh:mm): ");
-		minTime = S8.next();
+		S8 = new Scanner(System.in);
 		
-	
-		System.out.println("Please enter maximum time (hh:mm): ");
-		maxTime = S8.next();
+		System.out.println();
+		System.out.print("Please enter the day of the event: ");
+		
+		day = S8.nextLine();
+		
+		num = Integer.parseInt(day);
+		
+		while(num<1 || num>31) 
+		{
+			
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter the day of the event: ");
+			
+			day = S8.nextLine();
+			
+			num = Integer.parseInt(day);
+		}
+			
+		
+		System.out.println();
+		System.out.print("Please enter the month of the event: ");
+		
+		month = S8.nextLine();
+		
+		num = Integer.parseInt(month);
+		
+		while(num<1 || num>12) 
+		{
+			
+			System.out.println("Invalid Input.");
+			System.out.print("Please enter the month of the event: ");
+			
+			month = S8.nextLine();
+			
+			num = Integer.parseInt(month);
+		}
+		
+		
+		System.out.println();
+		System.out.print("Please enter the year of the event: ");
+		
+		year = S8.nextLine();
+		
+		num = Integer.parseInt(year);
+		
+		Date datte = new Date();
+		  		
+		int nowYear = datte.getYear();
+		nowYear = nowYear + 1900;
+		    	
+		while(num < nowYear) 
+		{
+		    		
+		    System.out.println();
+			System.out.println("Invalid Input. The year already passed.");
+			System.out.print("Please enter the year of the event: ");
+					
+			year = S8.nextLine();
+			num = Integer.parseInt(year);
+					
+		}
+		
+		date = day + "/" + month + "/" + year;
+		
+		S8 = new Scanner(System.in);
+		
+		System.out.println();
+		System.out.println("Entering Minimum Time.");
+		System.out.println("Possible times are from 8am till 5pm.");
+		System.out.print("Please enter start time hour: ");
+		
+		startTimeHour = S8.nextLine();
+		
+		num = Integer.parseInt(startTimeHour);
+		
+		while(num <8 || num > 17) 
+		{
+			
+			System.out.println("Invalid Input. Possible times are from 8am till 5pm.");
+			System.out.print("Please enter start time hour: ");
+			
+			startTimeHour = S8.nextLine();
+			num = Integer.parseInt(startTimeHour);
+			
+			System.out.println();
+			
+		}
+		
+		S8 = new Scanner(System.in);
+		
+		System.out.println();
+		System.out.println("Possible minutes are 0, 15, 30, 45 & 60 minutes.");
+		System.out.print("Please enter start time minute: ");
+		
+		startTimeMinute = S8.nextLine();
+		
+		num = Integer.parseInt(startTimeMinute);
+		
+		if(num == 0 || num == 15 || num == 30 || num == 45 || num ==60) 
+		{
+			
+			valid = true;
+			
+		}
+
+		while(valid == false) 
+		{
+			
+			System.out.println();
+			System.out.println("Invalid Input.");
+			System.out.println("Possible minutes are 0, 15, 30, 45 & 60 minutes.");
+			System.out.print("Please enter start time minute: ");
+			
+			startTimeMinute = S8.nextLine();
+			num = Integer.parseInt(startTimeMinute);
+			
+			if(num == 0 ||num == 15 || num == 30 || num == 45 || num == 60) 
+			{
+				
+				valid = true;
+				
+			}
+			
+			System.out.println();
+			
+		}
+		
+		System.out.println();
+		System.out.println("Enetering Maxiumum Time.");
+		System.out.println("Possible times are from 8am till 5pm.");
+		System.out.print("Please enter end time hour: ");
+		
+		endTimeHour = S8.nextLine();
+		
+		num = Integer.parseInt(endTimeHour);
+		
+		while(num <8 || num > 17) 
+		{
+			
+			System.out.println("Invalid Input. Possible times are from 8am till 5pm.");
+			System.out.print("Please enter end time hour: ");
+			
+			endTimeHour = S8.nextLine();
+			num = Integer.parseInt(endTimeHour);
+			
+			System.out.println();
+			
+		}
+		
+		S8 = new Scanner(System.in);
+		
+		System.out.println();
+		System.out.println("Possible minutes are 0, 15, 30, 45 & 60 minutes.");
+		System.out.print("Please enter end time minute: ");
+		
+		endTimeMinute = S8.nextLine();
+		
+		num = Integer.parseInt(endTimeMinute);
+		
+		if(num == 0 || num == 15 || num == 30 || num == 45 || num ==60) 
+		{
+			
+			valid = true;
+			
+		}
+
+		while(valid == false) 
+		{
+			
+			System.out.println();
+			System.out.println("Invalid Input.");
+			System.out.println("Possible minutes are 0, 15, 30, 45 & 60 minutes.");
+			System.out.print("Please enter end time minute: ");
+			
+			endTimeMinute = S8.nextLine();
+			num = Integer.parseInt(endTimeMinute);
+			
+			if(num == 0 ||num == 15 || num == 30 || num == 45 || num == 60) 
+			{
+				
+				valid = true;
+				
+			}
+			
+			System.out.println();
+			
+		}
+		
+		endTime = endTimeHour + ":" + endTimeMinute;
+		String startTime =startTimeHour + ":" + startTimeMinute;
 		
 
+		try 
+		{   	
+			 SimpleDateFormat temp = new SimpleDateFormat("kk:mm");
+			 
+			 Meeting tempp = new Meeting();
+			 tempp.setStartDate(temp.parse(startTime));
+			 startTime = temp.format(tempp.getStartDate());
+			 
+			 tempp.setStartDate(temp.parse(endTime));
+			 endTime = temp.format(tempp.getStartDate());
+			    	
+		} 
+		    
+		catch (ParseException e) 
+		{
+		    	
+		     e.printStackTrace();
+		      
+		}
+		
+		minTime = startTime;
+		maxTime = endTime;
 		minTimeCopy = minTime;
 		maxTimeCopy = maxTime;
 		
@@ -680,7 +928,6 @@ public class Tree {
 						currentCol++;
 						
 					}
-				
 					
 					String[] startparts = minTimeCopy.split(":");
 					
@@ -690,6 +937,7 @@ public class Tree {
 							
 					try 
 					{   	
+						
 						 format = new SimpleDateFormat("kk:mm");
 						 
 						 copy.setStartDate(format.parse(minTimeCopy));
@@ -713,8 +961,7 @@ public class Tree {
 				
 				
 			}
-			
-			
+						
 		}
 		
 		
@@ -735,7 +982,6 @@ public class Tree {
 				}
 				
 			}
-			
 			
 			
 			for(int i = 1; i < parts.length; i++) 
@@ -759,45 +1005,125 @@ public class Tree {
 			List<String> sortedList = new ArrayList(setA);
 			Collections.sort(sortedList);
 			
-			System.out.println("The avaible times are: ");
+			Date time_now = new Date();
+				
+			System.out.println("The available times are: ");
 			System.out.print(sortedList);
-			
+			System.out.println();
 			System.out.println("Please enter time you want (hh:mm): ");
 			choiceTime = S8.next();
 			
-			for(int i = 0; i < parts.length; i++) 
+			
+			boolean checkChoiceTime = false;
+			
+			for(int l = 0; l <sortedList.size(); l++) 
 			{
 				
-				currentDiary = this.findDiary(parts[i]);
+				Iterator<String> Iterator = sortedList.iterator();
 				
-				String[] startparts = choiceTime.split(":");
+				 while (Iterator.hasNext()) 
+			     {
+			        	
+					 if(choiceTime.equals(Iterator.next()))
+					 {
+						 
+						 
+						 checkChoiceTime = true;
+							 			 
+					 }
+			     }	
+			}
+			
+			while (checkChoiceTime == false) 
+			{
 				
-				num = (Integer.parseInt(startparts[1])) + 15;
+				System.out.println("The entered time does not match available times.");
+				System.out.println("Please enter time you want (hh:mm): ");
+				choiceTime = S8.next();
 				
-				choiceTimeEnd = startparts[0] + ":" + num;
-				
-				try 
-				{   	
-					 format = new SimpleDateFormat("kk:mm");
-					 
-					 copy.setStartDate(format.parse(choiceTimeEnd));
-					 choiceTimeEnd = format.format(copy.getStartDate());
-				    	
-				} 
-				    
-				catch (ParseException e) 
+				for(int l = 0; l <sortedList.size(); l++) 
 				{
-				    	
-				     e.printStackTrace();
-				      
-				}
+					
+					Iterator<String> Iterator = sortedList.iterator();
+					
+					while (Iterator.hasNext()) 
+				    {
+				        	
+						if(choiceTime.equals(Iterator.next()))
+						{
+							 
+							 
+							checkChoiceTime = true;
+								 			 
+						}
+				    }	
+				}		
+			}
+			
+			
+			System.out.println();
+			System.out.print("Please enter the amount of weeks the meeting should be added to: ");
+			
+			recurance = S8.nextInt();
+			
+			while(recurance<1) 
+			{
 				
-				System.out.println(date + " " + choiceTime + " " + choiceTimeEnd + " " + "Group Meeting"+ " " + parts.length + 1);
+				System.out.println();
+				System.out.println("Invalid Input.");
+				System.out.print("Please enter the amount of weeks the meeting should be added to: ");
 				
-				currentDiary.addEvent(date, choiceTime, choiceTimeEnd, "Group Meeting", parts.length + 1);
+				recurance = S8.nextInt();
 				
 			}
 			
+			for(int k = 0; k<recurance;k++)
+			{
+				
+				for(int i = 0; i < parts.length; i++) 
+				{
+					
+					currentDiary = this.findDiary(parts[i]);
+					
+					String[] startparts = choiceTime.split(":");
+					
+					num = (Integer.parseInt(startparts[1])) + 15;
+					
+					choiceTimeEnd = startparts[0] + ":" + num;
+					
+					try 
+					{   	
+						 format = new SimpleDateFormat("kk:mm");
+						 
+						 copy.setStartDate(format.parse(choiceTimeEnd));
+						 choiceTimeEnd = format.format(copy.getStartDate());
+					    	
+					} 
+					    
+					catch (ParseException e) 
+					{
+					    	
+					     e.printStackTrace();
+					      
+					}
+					
+					currentDiary.addMeeting(date, choiceTime, choiceTimeEnd, "Group Meeting", (parts.length + 1));
+					
+				}
+				
+				day = Integer.toString((Integer.parseInt(day) + 7));
+				date = day + "/" + month + "/" + year;
+				
+				if(k == (recurance - 1)) 
+				{
+					
+					long elapsed = time_now.getTime() - timeSearchStarted.getTime(); 
+			        System.out.println("The search lasted for: " + elapsed + " milliseconds.");
+					
+				}
+				
+			}
+		
 		}
 		else
 		{
@@ -810,14 +1136,224 @@ public class Tree {
 	
 	}
 	
-	public void addNewMeeting() 
+
+	
+	public String traversePreOrder(TreeNode node) 
+	{
+	
+		
+		// If node is not empty.
+		if (node != null)
+		{
+			
+			return (node.getName() + "," + traversePreOrder(node.getLeft()) + "," + traversePreOrder(node.getRight()));
+		
+		}
+		
+		return ",";
+	}
+	
+	public String[] createArrayOfNames()
+	{
+		String nameList = traversePreOrder(root);
+		String[] names = nameList.split(","); 
+		
+		return names;
+	}
+	
+	
+	/**
+     * Write Binary Tree to external Text File.
+     * 
+     *               
+     */	
+	public void writeTree() 
 	{
 		
-		(this.findTreeNode("A")).getMyDiary().addEvent("23/03/2018","12:00", "13:00", "SDas", 4);
-		(this.findTreeNode("A")).getMyDiary().addEvent("23/03/2018","12:15", "13:00", "SDas", 4);
-		(this.findTreeNode("A")).getMyDiary().addEvent("23/03/2018","12:30", "13:00", "SDas", 4);
-		(this.findTreeNode("B")).getMyDiary().addEvent("23/03/2018","12:00", "13:00", "SDas", 4);
-		(this.findTreeNode("B")).getMyDiary().addEvent("23/03/2018","12:15", "13:00", "SDas", 4);
+		//Make local variables null.
+		FileOutputStream outputStream = null;
+        PrintWriter printWriter = null;
+		
+		//Try's
+        try
+        {
+        	
+        	//Assigns value to local variable.
+        	outputStream = new FileOutputStream("SaveFile.txt");
+            printWriter = new PrintWriter(outputStream); 
+            
+            
+            // Sets to PostOrder Traversal of Binary Tree.
+            String stuff = this.traversePreOrder(this.getRoot());
+            
+        	
+            // Separate stuff using ",".
+    		String[] parts = stuff.split(",");
+    		
+    		// Display current action.
+    		System.out.println("Writing...");
+    		
+    		
+    		// For all items in the array.
+    		for(int i = 0;i < parts.length; i++) 
+    		{
+    			
+    			// If the item is not blank.
+    			if(!(parts[i].equals(""))) 
+    			{
+    				TreeNode node = findTreeNode(parts[i]);
+    				LinkedList<Meeting> meetings = node.getMyMeetings();
+    				Iterator<Meeting> Iterator = meetings.iterator();
+    				
+    				while (Iterator.hasNext()) 
+    		        {
+    		        	Meeting m = Iterator.next();
+    		        	printWriter.println(parts[i] + "/" + m.getStartDate() + "," + m.getEndDate() + "," + m.getDescription() + "," + m.getCapacity());
+    		        }
+    				
+    			}
+    			
+    		}
+  
+          
+			//Closes printWriter.
+            printWriter.close(); 
+			
+            // Display end of action.
+            System.out.println("Finished Writing.");
+            
+        }
+        
+        
+        //If can not Try.
+        catch (IOException e)
+        {
+        	
+        	//Displays "Error in file write: " then error.
+    	    System.out.println();
+            System.out.println("Error in file write: " + e);
+            
+        }
+		
+		
 	}
+	
+	
+	/**
+     * Read in Data from External File to be added to the Binary Tree.
+     *               
+     */	
+	public void readTree() 
+	{
+		String name, start,end,description,capacity,formattedDated, Date = null;
+		String nameCheck = "";
+		int parsedCapacity;
+		TreeNode node;
+		Diary diary = new Diary();
+		
+		//Make local variables null.
+		FileReader fileReader = null;
+	    BufferedReader bufferedReader = null;
+	    
+	    //Displays "Reading from file: " and then value of directory.
+	    System.out.println();
+	    System.out.println("Loading Tree...");
+	    
+	    
+	    //Try's
+	    try
+	    {
+	    	
+	    	//Assigns value to local variable.
+	    	fileReader = new FileReader("SaveFile.txt");
+	    	bufferedReader = new BufferedReader(fileReader); 
+
+	    	//Assigns value to local variable.
+	        String nextLine = bufferedReader.readLine();
+	            
+	        
+	        //While nextLine is not null.
+	        while (nextLine != null)
+	        {
+	        	
+	        		Date unformattedStart, unformattedEnd;
+	        		
+	        	    String startTime, startDay, endTime;
+	        	    
+	        		// Separates nextLine by "/".
+	                String[] parts = nextLine.split("/");
+	                
+	                name = parts[0];
+	                
+	                if((!name.equals(nameCheck)))
+	                {
+	                	this.addNewTreeNode(name);
+	                	diary = new Diary();
+	                }
+	                
+	                node = findTreeNode(name);
+	                
+	                nameCheck = name;
+	                
+	                
+	                String[] details = parts[1].split(",");
+	                
+	                start = details[0];
+	                end = details[1];
+	                description = details[2];
+	                capacity = details[3];
+	                
+	                String pattern = "EEE MMM dd kk:mm:ss zzz yyyy";
+	    	    	SimpleDateFormat format = new SimpleDateFormat(pattern);
+	    	    	unformattedStart = format.parse(start);
+	    	    	unformattedEnd = format.parse(end);
+	    	    	
+	    	    	String dayPattern = "dd/MM/yyyy";
+	    	    	SimpleDateFormat dayFormat = new SimpleDateFormat(dayPattern);
+	    	    	startDay = dayFormat.format(unformattedStart);
+	               
+	                String timePattern = "kk:mm";
+	                SimpleDateFormat timeFormat = new SimpleDateFormat(timePattern);
+	                startTime = timeFormat.format(unformattedStart);
+	                
+	                
+	                endTime = timeFormat.format(unformattedEnd);
+	                
+	             
+	                parsedCapacity = Integer.parseInt(capacity);
+	                
+	                
+	                System.out.println("Name: " + name + " |Start: " + start + " |End: " + end + " |Description: " + description + " |Capacity: " + capacity);
+	                
+	                diary.addMeeting(startDay, startTime, endTime, description, parsedCapacity);
+	                node.setMyDiary(diary);
+	                nextLine = bufferedReader.readLine();
+	        }
+	        
+	        
+	        //Displays "Finished reading in the file."
+		    System.out.println();
+	        System.out.println("Finished reading in the file.");
+	    
+	        
+	    }
+	    
+	    // If can not Try then.
+	    catch (IOException e)
+	    {
+	    	
+	    	//Displays "Error reading from file: " then error.
+	 	    System.out.println();
+	        System.out.println("Error reading from file: " + e);
+	            
+	    } catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
 	
 }
